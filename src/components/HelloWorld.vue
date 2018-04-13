@@ -3,6 +3,9 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">按钮</mt-button>
+    <ul>
+      <li>list</li>
+    </ul>
   </div>
 </template>
 
@@ -23,7 +26,13 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
+.hello{
+  border:1px solid red;
+  ul>li{
+    border:1px solid red;
+  }
+}
 h1,
 h2 {
   font-weight: normal;
