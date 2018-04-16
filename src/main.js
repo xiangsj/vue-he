@@ -8,6 +8,9 @@ import 'mint-ui/lib/style.css'
 import App from './App'
 import router from './router'
 
+import axios from 'axios'
+Vue.prototype.$http = axios
+
 Vue.use(MintUI)
 Vue.config.productionTip = false
 
