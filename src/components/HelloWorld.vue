@@ -2,10 +2,11 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <mt-button @click.native="handleClick">按钮</mt-button>
+    <mt-button @click.native="handleClick">toast</mt-button>
     <ul>
       <li>list</li>
     </ul>
+    <mt-button @click.native="apiGet">apiGet</mt-button>
   </div>
 </template>
 
@@ -20,6 +21,15 @@ export default {
   methods: {
     handleClick: function() {
       this.$toast('Hello world!')
+    },
+    apiGet() {
+      this.$http.get('https://aapi.laifuyun.com/v2/sysDefault/get').then(res => {
+        console.log(res.data)
+        this.msg = res.data.msg;
+        // success callback
+      }, res => {
+        // error callback
+      })
     }
   }
 }
@@ -27,12 +37,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.hello{
-  border:1px solid red;
-  ul>li{
-    border:1px solid red;
+.hello {
+  // border: 1px solid red;
+  ul>li {
+    border: 1px solid red;
   }
 }
+
 h1,
 h2 {
   font-weight: normal;
