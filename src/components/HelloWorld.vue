@@ -30,6 +30,40 @@ export default {
       }, res => {
         // error callback
       })
+
+      //       // Make a request for a user with a given ID
+      // axios.get('/user?ID=12345')
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (response) {
+      //     console.log(response);
+      //   });
+
+      // // Optionally the request above could also be done as
+      // axios.get('/user', {
+      //     params: {
+      //       ID: 12345
+      //     }
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (response) {
+      //     console.log(response);
+      //   });
+
+      //   axios.post('/user', {
+      //     firstName: 'Fred',
+      //     lastName: 'Flintstone'
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (response) {
+      //     console.log(response);
+      //   });
+
     }
   }
 }
