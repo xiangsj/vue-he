@@ -23,9 +23,10 @@ export default {
       this.$toast('Hello world!')
     },
     apiGet() {
-      this.$http.get('https://aapi.laifuyun.com/v2/sysDefault/get').then(res => {
-        console.log(res.data)
-        this.msg = res.data.msg;
+      // this.$http.get('https://aapi.laifuyun.com/v2/sysDefault/get').then(res => {
+      this.$http.get('http://120.27.163.36:5568/api/ProdSort/gh_6297f82da259').then(res => {
+        console.log(res)
+        // this.msg = res.data.msg;
         // success callback
       }, res => {
         // error callback
