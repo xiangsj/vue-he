@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <router-link to="/index">Go to index</router-link>
+
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">toast</mt-button>
     <ul>
@@ -23,9 +25,8 @@ export default {
       this.$toast('Hello world!')
     },
     apiGet() {
-      // this.$http.get('https://aapi.laifuyun.com/v2/sysDefault/get').then(res => {
       this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
-        console.log(res)
+        console.log(JSON.parse(res.data))
         // this.msg = res.data.msg;
         // success callback
       }, res => {

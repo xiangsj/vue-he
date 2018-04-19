@@ -1,6 +1,6 @@
-# y
+# vue-he
 
-> for he
+> web for he
 
 ## Build Setup
 
