@@ -24,46 +24,13 @@ export default {
     },
     apiGet() {
       // this.$http.get('https://aapi.laifuyun.com/v2/sysDefault/get').then(res => {
-      this.$http.get('http://120.27.163.36:5568/api/ProdSort/gh_6297f82da259').then(res => {
+      this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
         console.log(res)
         // this.msg = res.data.msg;
         // success callback
       }, res => {
         // error callback
-      })
-
-      //       // Make a request for a user with a given ID
-      // axios.get('/user?ID=12345')
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (response) {
-      //     console.log(response);
-      //   });
-
-      // // Optionally the request above could also be done as
-      // axios.get('/user', {
-      //     params: {
-      //       ID: 12345
-      //     }
-      //   })
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (response) {
-      //     console.log(response);
-      //   });
-
-      //   axios.post('/user', {
-      //     firstName: 'Fred',
-      //     lastName: 'Flintstone'
-      //   })
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (response) {
-      //     console.log(response);
-      //   });
+      });
 
     }
   }
