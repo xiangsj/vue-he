@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         getMenu() {
-            // console.log(" index ")
             this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
                 console.log(JSON.parse(res.data))
                 let getData = JSON.parse(res.data);
