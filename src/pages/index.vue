@@ -1,5 +1,5 @@
 <template>
-    <div class="homePage">
+    <div class="index">
         <img class="logo" :src="logoUrl">
         <ul class="nav">
             <li v-for="(item,index) in homeList" :key="index">
@@ -8,12 +8,14 @@
             </li>
         </ul>
         <div class="footer">{{company}}</div>
+        
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'homePage',
+    name: 'index',
     data() {
         return {
             homeList:[],
@@ -53,3 +55,4 @@ export default {
 <style lang="less">
 
 </style>
+

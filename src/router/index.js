@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import index from '@/pages/index'
+import home from '@/pages/home'
 import search from '@/pages/search'
 
 Vue.use(Router)
@@ -14,14 +15,20 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/index',
-      name: 'index',
-      component: index,
-      children: [{
-        path: 'search',
-        name: 'search',
-        component: search,
-      }
+      path: '/home',
+      name: 'home',
+      component: home,
+      children: [
+        {
+          path: 'index',
+          name: 'index',
+          component: index,
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: search,
+        }
     ]
     }
   ]
