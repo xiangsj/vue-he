@@ -1,24 +1,114 @@
 <template>
-    <div class="homePage">
+    <div class="search">
+        <div class="text-center">
+            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">
+        </div>
+        <mt-navbar v-model="selected">
+            <mt-tab-item id="1">车型</mt-tab-item>
+            <mt-tab-item id="2">编号</mt-tab-item>
+            <mt-tab-item id="3">Vin码</mt-tab-item>
+            <mt-tab-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="index">{{item.ShowCaption}}</mt-tab-item>
+        </mt-navbar>
 
-        sssssssss ear 
-        
+        <!-- tab-container -->
+        <mt-tab-container v-model="selected">
+            <mt-tab-container-item id="1">
+                <br>
+                <br>
+                <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="username"></mt-field>
+                <mt-cell title="汽车品牌" to="/home/index" is-link value="汽车品牌选择"> </mt-cell>
+                <mt-cell title="汽车车系" to="/home/index" is-link value="请选择汽车车系"> </mt-cell>
+                <mt-cell title="车型" to="/home/index" is-link value="请选择车型"> </mt-cell>
+                <br> <br>
+                <br>
+                <div class="text-center">
+                    <mt-button size="small" type="primary" @click="oneClick" style="width:80px;margin:0 10px;">搜索</mt-button>
+                    <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
+                </div>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="2">
+
+                <br>
+                <br>
+                <mt-field label="编号" placeholder="主机编号及厂家供编号" v-model="username"></mt-field>
+                
+                <br>
+                <div class="text-center">
+                    <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
+                    <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
+                </div>
+                
+                
+            </mt-tab-container-item>
+            <mt-tab-container-item id="3">
+                
+                <br>
+                <br>
+                <mt-field label="Vin码" placeholder="请输入Vin码" v-model="username"></mt-field>
+                
+                <br>
+                <div class="text-center">
+                    <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
+                    <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
+                </div>
+
+            </mt-tab-container-item>
+            <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="index">
+                <br>
+                <br>
+                <mt-field :label="item.ShowCaption" :placeholder="'请输入'+item.ShowCaption" v-model="username"></mt-field>
+                
+                <br>
+                <div class="text-center">
+                    <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
+                    <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
+                </div>
+
+            </mt-tab-container-item>
+        </mt-tab-container>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'homePage',
+    name: 'search',
     data() {
         return {
-            
+            selected: '1',
+            tabsMore: [],
+            username: '',
         }
     },
     created() {
-        
+        this.getField();
     },
     methods: {
-       
+        getField() {
+            this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
+                console.log(" 自定义导航 ")
+                console.log(JSON.parse(res.data))
+                let getData = JSON.parse(res.data);
+                this.tabsMore = getData.DataList;
+                // Indicator.close();
+            }, res => {
+                // error callback
+            });
+
+            // this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
+            //     // console.log(JSON.parse(res.data))
+            //     let getData = JSON.parse(res.data);
+            //     this.homeList = getData.DataList;
+            //     Indicator.close();
+            // }, res => {
+            //     // error callback
+            // });
+
+        },
+        //
+        oneClick(){
+            console.log('  j     jjjjjjj ');
+        },
+
     }
 }
 </script>
