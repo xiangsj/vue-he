@@ -66,10 +66,14 @@
 
             </mt-tab-container-item>
         </mt-tab-container>
+
+        <!-- 选品牌 -->
+        <select-brand></select-brand>
     </div>
 </template>
 
 <script>
+import selectBrand from '../components/selectBrand'
 export default {
     name: 'search',
     data() {
@@ -85,8 +89,8 @@ export default {
     methods: {
         getField() {
             this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
-                console.log(" 自定义导航 ")
-                console.log(JSON.parse(res.data))
+                // console.log(" 自定义导航 ")
+                // console.log(JSON.parse(res.data))
                 let getData = JSON.parse(res.data);
                 this.tabsMore = getData.DataList;
                 // Indicator.close();
@@ -94,14 +98,6 @@ export default {
                 // error callback
             });
 
-            // this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
-            //     // console.log(JSON.parse(res.data))
-            //     let getData = JSON.parse(res.data);
-            //     this.homeList = getData.DataList;
-            //     Indicator.close();
-            // }, res => {
-            //     // error callback
-            // });
 
         },
         //
@@ -109,6 +105,9 @@ export default {
             console.log('  j     jjjjjjj ');
         },
 
+    },
+    components:{
+        'select-brand': selectBrand,
     }
 }
 </script>
