@@ -1,7 +1,7 @@
 <template>
-  <div class="hello">
+  <div class="hello text-center">
     <h1>{{ msg }}</h1>
-    <router-link to="/index">Go to index</router-link>
+    <router-link to="/home/index">Go to index</router-link>
 
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">toast</mt-button>

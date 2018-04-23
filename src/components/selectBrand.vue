@@ -1,41 +1,14 @@
 <template>
   <div class="selectBrand">
     <mt-index-list>
-  <mt-index-section index="A">
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-    <mt-cell title="Aaron"></mt-cell>
-    <mt-cell title="Alden"></mt-cell>
-    <mt-cell title="Austin"></mt-cell>
-  </mt-index-section>
-  <mt-index-section index="B">
-    <mt-cell title="Baldwin"></mt-cell>
-    <mt-cell title="Braden"></mt-cell>
-  </mt-index-section>
-  <mt-index-section index="Z">
-    <mt-cell title="Zack"></mt-cell>
-    <mt-cell title="Zane"></mt-cell>
-  </mt-index-section>
-</mt-index-list>
+      <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
+        <mt-cell v-for="(item2,index2) in item.list" :key="index2" :title="item2.BrandName">
+          
+        </mt-cell>
+        <!--<mt-cell title="Aaron"></mt-cell>
+        <mt-cell title="Aaron"></mt-cell>-->
+      </mt-index-section>
+    </mt-index-list>
   </div>
 </template>
 
@@ -44,38 +17,55 @@ export default {
   name: 'selectBrand',
   data() {
     return {
-      
+      navs:[]
     }
   },
-  created(){
+  created() {
     this.getBrand();
   },
   methods: {
-    getBrand(){
+    getBrand() {
       this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
-        console.log(JSON.parse(res.data))
+        // console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);
+        let dataList = getData.DataList;
+
         let conArr = [];
-        getData.forEach(item=>{
-          if(conArr.indexOf(item.FirstChar === -1)){
+        dataList.forEach(item => {
+          if (conArr.indexOf(item.FirstChar) === -1) {
             conArr.push(item.FirstChar);
           }
         });
-        console.log(conArr)
-        // this.homeList = getData.DataList;
+        // console.log(conArr)
+
+        let newData = [];
+        conArr.forEach(item=>{
+          let list = [];
+          dataList.forEach(item2=>{
+            if(item == item2.FirstChar){
+              list.push(item2);
+            }
+          })
+          newData.push({
+            initials:item,
+            list:list
+          });
+        })
+        // console.log(newData)
+        this.navs = newData;
 
         // Indicator.close();
-    }, res => {
+      }, res => {
         // error callback
-    });
+      });
     }
-    
+
   }
 }
 </script>
 
 <style lang="less">
-.selectBrand{
+.selectBrand {
   border: 1px solid red;
   position: fixed;
   left: 0;
