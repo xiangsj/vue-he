@@ -15,40 +15,48 @@
             <mt-tab-container-item id="1">
                 <br>
                 <br>
-                <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="username"></mt-field>
-                <div @click="$refs.selectBrand.open()"><mt-cell title="标题文字" is-link>
-  <span style="color: green">这里是元素</span>
-</mt-cell></div>
-                <mt-cell title="汽车品牌" to="" is-link value="汽车品牌选择" > </mt-cell>
-                <mt-cell title="汽车车系" to="" is-link value="请选择汽车车系"> </mt-cell>
-                <mt-cell title="车型" to="#" is-link value="请选择车型"> </mt-cell>
-                <br> <br>
+                <div class="inputRight">
+                    <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
+                </div>
+                <div @click="$refs.selectBrand.open()">
+                    <mt-cell title="汽车品牌" is-link value=""> 请选择汽车品牌 </mt-cell>
+                </div>
+                <div @click="$refs.selectBrand.open()">
+                    <mt-cell title="汽车车系" is-link value=""> 请选择汽车车系 </mt-cell>
+                </div>
+                <div @click="$refs.selectBrand.open()">
+                    <mt-cell title="车型" is-link value=""> 请选择车型 </mt-cell>
+                </div>
+
+                 <br>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" @click="oneClick" style="width:80px;margin:0 10px;">搜索</mt-button>
                     <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
                 </div>
+
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
 
                 <br>
                 <br>
+                <div class="inputRight">
                 <mt-field label="编号" placeholder="主机编号及厂家供编号" v-model="username"></mt-field>
-                
+                </div>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
                     <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
                 </div>
-                
-                
+
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
-                
+
                 <br>
                 <br>
+                <div class="inputRight">
                 <mt-field label="Vin码" placeholder="请输入Vin码" v-model="username"></mt-field>
-                
+                </div>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
@@ -59,8 +67,9 @@
             <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="index">
                 <br>
                 <br>
+                <div class="inputRight">
                 <mt-field :label="item.ShowCaption" :placeholder="'请输入'+item.ShowCaption" v-model="username"></mt-field>
-                
+                </div>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
@@ -83,16 +92,20 @@ export default {
         return {
             selected: '1',
             tabsMore: [],
+            pageId: '',
+            
+            search: {
+                keywords: '',
+            },
+
             username: '',
         }
     },
     created() {
+        this.pageId = this.$route.params.id;
         this.getField();
     },
     methods: {
-        aaa(){
-            console.log(" jjj ")
-        },
         getField() {
             this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
                 // console.log(" 自定义导航 ")
@@ -103,16 +116,35 @@ export default {
             }, res => {
                 // error callback
             });
-
-
         },
         //
-        oneClick(){
+        oneClick() {
             console.log('  j     jjjjjjj ');
+            if(this.search.keywords !== ''){
+                // console.log(" 666 ")
+                // this.searchByKeywords();
+                this.$router.push('/home/detail/'+this.pageId+'&&'+this.search.keywords)
+            }
         },
+        // searchByKeywords(){
+        //     let data = {
+        //         keywords: this.search.keywords,
+        //         weiXinCode: 'gh_6297f82da259',
+        //         mSortNo: this.pageId,
+        //     }
+        //     this.$http.get('/api/ProductSearchByStyleWord', {params:data}).then(res => {
+        //         console.log(" ^^^^ ")
+        //         console.log(JSON.parse(res.data))
+        //         let getData = JSON.parse(res.data);
+        //         // this.tabsMore = getData.DataList;
+        //         // Indicator.close();
+        //     }, res => {
+        //         // error callback
+        //     });
+        // }
 
     },
-    components:{
+    components: {
         'select-brand': selectBrand,
     }
 }

@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import index from '@/pages/index'
 import home from '@/pages/home'
 import search from '@/pages/search'
+import detail from '@/pages/detail'
 
 Vue.use(Router)
 
@@ -25,9 +26,14 @@ export default new Router({
           component: index,
         },
         {
-          path: 'search',
+          path: 'search/:id',
           name: 'search',
           component: search,
+        },
+        {
+          path: 'detail/:string',
+          name: 'detail',
+          component: detail,
         }
     ]
     }

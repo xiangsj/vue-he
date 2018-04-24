@@ -3,7 +3,7 @@
         <div class="text-center">
             <img class="logo" :src="logoUrl">
             <ul class="nav">
-                <li v-for="(item,index) in homeList" :key="index" @click="goSearch">
+                <li v-for="(item,index) in homeList" :key="index" @click="goSearch(item.FID)">
                     <img :src="item.SortPath">
                     <div>{{item.SortName}}</div>
                 </li>
@@ -31,8 +31,8 @@ export default {
         this.getLogin();
     },
     methods: {
-        goSearch() {
-            this.$router.push('/home/search')
+        goSearch(FID) {
+            this.$router.push('/home/search/'+FID)
         },
         getMenu() {
             this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
