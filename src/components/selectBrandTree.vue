@@ -9,9 +9,9 @@
 
     <mt-index-list>
       <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
-        <mt-cell v-for="(item2,index2) in item.list" :key="index2" :title="item2.BrandName">
-
-        </mt-cell>
+        <div v-for="(item2,index2) in item.list" :key="index2" @click="sendBrand(item2)">
+          <mt-cell :title="item2.BrandName"></mt-cell>
+        </div>
       </mt-index-section>
     </mt-index-list>
   </div>
@@ -27,12 +27,18 @@ export default {
     }
   },
   created() {
-    this.getBrand();
+    
   },
   methods: {
-    open(){
-      console.log(" kkk ")
-      this.isOpen = true;
+    sendBrand(item){
+      this.isOpen = false;
+      this.$emit("updata",item)
+      console.log(item)
+    },
+    open(id){
+      console.log(id)
+      // this.isOpen = true;
+      // this.getBrand();
     },
     getBrand() {
       this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
@@ -61,7 +67,8 @@ export default {
             list: list
           });
         })
-        // console.log(newData)
+        console.log(newData)
+
         this.navs = newData;
 
         // Indicator.close();

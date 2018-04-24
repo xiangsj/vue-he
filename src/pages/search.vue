@@ -19,9 +19,9 @@
                     <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
                 </div>
                 <div @click="$refs.selectBrand.open()">
-                    <mt-cell title="汽车品牌" is-link value=""> 请选择汽车品牌 </mt-cell>
+                    <mt-cell title="汽车品牌" is-link value="请选择汽车品牌"><span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span></mt-cell>
                 </div>
-                <div @click="$refs.selectBrand.open()">
+                <div @click="$refs.selectBrandTree.open(search.brand.BrandID)">
                     <mt-cell title="汽车车系" is-link value=""> 请选择汽车车系 </mt-cell>
                 </div>
                 <div @click="$refs.selectBrand.open()">
@@ -80,12 +80,16 @@
         </mt-tab-container>
 
         <!-- 选品牌 -->
-        <select-brand ref="selectBrand"></select-brand>
+        <select-brand ref="selectBrand" @updata="updataBrand"></select-brand>
+
+        <!-- 选品牌 -->
+        <select-brand-tree ref="selectBrandTree" @updata="updataBrandTree"></select-brand-tree>
     </div>
 </template>
 
 <script>
 import selectBrand from '../components/selectBrand'
+import selectBrandTree from '../components/selectBrandTree'
 export default {
     name: 'search',
     data() {
@@ -96,8 +100,11 @@ export default {
             
             search: {
                 keywords: '',
+                brand:{
+                    BrandID: '',
+                    BrandName:'',
+                },
             },
-
             username: '',
         }
     },
@@ -106,6 +113,27 @@ export default {
         this.getField();
     },
     methods: {
+        //
+        // selectBrandTree(){
+        //     let id = this.search.BrandID;
+        //     if(id == ''){
+
+        //     }else{
+        //         ;
+        //     }
+        // },
+        updataBrandTree(item){
+            console.log(" ooo ")
+            console.log(item)
+            // this.search.brand = item;
+            // console.log(" ooo ")
+        },
+        updataBrand(item){
+            console.log(" jjj ")
+            // console.log(item)
+            this.search.brand = item;
+            // console.log(" ooo ")
+        },
         getField() {
             this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
                 // console.log(" 自定义导航 ")
@@ -146,6 +174,7 @@ export default {
     },
     components: {
         'select-brand': selectBrand,
+        'select-brand-tree': selectBrandTree,
     }
 }
 </script>
