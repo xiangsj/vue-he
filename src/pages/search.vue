@@ -16,9 +16,12 @@
                 <br>
                 <br>
                 <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="username"></mt-field>
-                <mt-cell title="汽车品牌" to="/home/index" is-link value="汽车品牌选择"> </mt-cell>
-                <mt-cell title="汽车车系" to="/home/index" is-link value="请选择汽车车系"> </mt-cell>
-                <mt-cell title="车型" to="/home/index" is-link value="请选择车型"> </mt-cell>
+                <div @click="$refs.selectBrand.open()"><mt-cell title="标题文字" is-link>
+  <span style="color: green">这里是元素</span>
+</mt-cell></div>
+                <mt-cell title="汽车品牌" to="" is-link value="汽车品牌选择" > </mt-cell>
+                <mt-cell title="汽车车系" to="" is-link value="请选择汽车车系"> </mt-cell>
+                <mt-cell title="车型" to="#" is-link value="请选择车型"> </mt-cell>
                 <br> <br>
                 <br>
                 <div class="text-center">
@@ -68,7 +71,7 @@
         </mt-tab-container>
 
         <!-- 选品牌 -->
-        <select-brand></select-brand>
+        <select-brand ref="selectBrand"></select-brand>
     </div>
 </template>
 
@@ -87,6 +90,9 @@ export default {
         this.getField();
     },
     methods: {
+        aaa(){
+            console.log(" jjj ")
+        },
         getField() {
             this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
                 // console.log(" 自定义导航 ")

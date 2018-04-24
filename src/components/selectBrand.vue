@@ -1,12 +1,17 @@
 <template>
-  <div class="selectBrand">
+  <div class="selectBrand" v-if="isOpen">
+
+    <mt-header title="汽车品牌">
+      <router-link to="" slot="left">
+        <mt-button icon="back" @click="isOpen=false">返回</mt-button>
+      </router-link>
+    </mt-header>
+
     <mt-index-list>
       <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
         <mt-cell v-for="(item2,index2) in item.list" :key="index2" :title="item2.BrandName">
-          
+
         </mt-cell>
-        <!--<mt-cell title="Aaron"></mt-cell>
-        <mt-cell title="Aaron"></mt-cell>-->
       </mt-index-section>
     </mt-index-list>
   </div>
@@ -17,13 +22,18 @@ export default {
   name: 'selectBrand',
   data() {
     return {
-      navs:[]
+      isOpen: false,
+      navs: []
     }
   },
   created() {
     this.getBrand();
   },
   methods: {
+    open(){
+      console.log(" kkk ")
+      this.isOpen = true;
+    },
     getBrand() {
       this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
         // console.log(JSON.parse(res.data))
@@ -39,16 +49,16 @@ export default {
         // console.log(conArr)
 
         let newData = [];
-        conArr.forEach(item=>{
+        conArr.forEach(item => {
           let list = [];
-          dataList.forEach(item2=>{
-            if(item == item2.FirstChar){
+          dataList.forEach(item2 => {
+            if (item == item2.FirstChar) {
               list.push(item2);
             }
           })
           newData.push({
-            initials:item,
-            list:list
+            initials: item,
+            list: list
           });
         })
         // console.log(newData)
@@ -66,7 +76,7 @@ export default {
 
 <style lang="less">
 .selectBrand {
-  border: 1px solid red;
+  // border: 1px solid red;
   position: fixed;
   left: 0;
   top: 0;
