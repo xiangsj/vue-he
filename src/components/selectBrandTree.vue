@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { Indicator } from 'mint-ui';
 export default {
   name: 'selectBrand',
   data() {
@@ -27,7 +28,7 @@ export default {
     }
   },
   created() {
-
+    
   },
   methods: {
     loadMore() {
@@ -46,6 +47,7 @@ export default {
       // console.log(item)
     },
     open(id) {
+      Indicator.open();
       console.log(id)
       this.isOpen = true;
       this.getBrand(id);
@@ -53,7 +55,8 @@ export default {
     getBrand(id) {
 
       this.$http.get('/api/Vehicle/gh_6297f82da259/' + id).then(res => {
-        console.log(JSON.parse(res.data))
+        Indicator.close();
+        // console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);
         let dataList = getData.DataList;
         this.navs = dataList;
