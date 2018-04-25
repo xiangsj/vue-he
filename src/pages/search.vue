@@ -22,11 +22,13 @@
                     <mt-cell title="汽车品牌" is-link value="请选择汽车品牌"><span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span></mt-cell>
                 </div>
                 <div @click="$refs.selectBrandTree.open(search.brand.BrandID)">
-                    <mt-cell title="汽车车系" is-link value=""> 请选择汽车车系 </mt-cell>
+                    <mt-cell title="汽车车系" is-link value="请选择汽车车系"><span v-if="search.tree.VehicleName != ''">{{search.tree.VehicleName}}</span></mt-cell>
                 </div>
-                <div @click="$refs.selectBrand.open()">
-                    <mt-cell title="车型" is-link value=""> 请选择车型 </mt-cell>
+
+                <div>
+                    <mt-cell title="车型" is-link value="请选择车型">  </mt-cell>
                 </div>
+                
 
                  <br>
                 <br>
@@ -104,6 +106,10 @@ export default {
                     BrandID: '',
                     BrandName:'',
                 },
+                tree:{
+                    VehicleID:'',
+                    VehicleName: '',
+                }
             },
             username: '',
         }
@@ -125,7 +131,7 @@ export default {
         updataBrandTree(item){
             console.log(" ooo ")
             console.log(item)
-            // this.search.brand = item;
+            this.search.tree = item;
             // console.log(" ooo ")
         },
         updataBrand(item){

@@ -7,13 +7,13 @@
       </router-link>
     </mt-header>
 
-    <mt-index-list>
-      <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
-        <div v-for="(item2,index2) in item.list" :key="index2" @click="sendBrand(item2)">
-          <mt-cell :title="item2.BrandName"></mt-cell>
-        </div>
-      </mt-index-section>
-    </mt-index-list>
+    <!-- <div v-for="(item,index) in navs" :key="index" @click="sendBrand(item2)">
+            <mt-cell :title="item.VehicleName"></mt-cell>
+          </div> -->
+    <ul class="scrollList">
+      <li v-for="(item,index) in navs" :key="index" @click="sendBrandTree(item)">{{ item.VehicleName }}</li>
+    </ul>
+
   </div>
 </template>
 
@@ -27,49 +27,60 @@ export default {
     }
   },
   created() {
-    
+
   },
   methods: {
-    sendBrand(item){
+    loadMore() {
+      this.loading = true;
+      setTimeout(() => {
+        let last = this.navs[this.navs.length - 1];
+        for (let i = 1; i <= 10; i++) {
+          this.navs.push(last + i);
+        }
+        this.loading = false;
+      }, 2500);
+    },
+    sendBrandTree(item) {
       this.isOpen = false;
-      this.$emit("updata",item)
-      console.log(item)
+      this.$emit("updata", item)
+      // console.log(item)
     },
-    open(id){
+    open(id) {
       console.log(id)
-      // this.isOpen = true;
-      // this.getBrand();
+      this.isOpen = true;
+      this.getBrand(id);
     },
-    getBrand() {
-      this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
-        // console.log(JSON.parse(res.data))
+    getBrand(id) {
+
+      this.$http.get('/api/Vehicle/gh_6297f82da259/' + id).then(res => {
+        console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);
         let dataList = getData.DataList;
+        this.navs = dataList;
+        // let conArr = [];
+        // dataList.forEach(item => {
+        //   if (conArr.indexOf(item.FirstChar) === -1) {
+        //     conArr.push(item.FirstChar);
+        //   }
+        // });
+        // // console.log(conArr)
 
-        let conArr = [];
-        dataList.forEach(item => {
-          if (conArr.indexOf(item.FirstChar) === -1) {
-            conArr.push(item.FirstChar);
-          }
-        });
-        // console.log(conArr)
+        // let newData = [];
+        // conArr.forEach(item => {
+        //   let list = [];
+        //   dataList.forEach(item2 => {
+        //     if (item == item2.FirstChar) {
+        //       list.push(item2);
+        //     }
+        //   })
+        //   newData.push({
+        //     initials: item,
+        //     list: list
+        //   });
+        // })
+        // console.log(newData)
 
-        let newData = [];
-        conArr.forEach(item => {
-          let list = [];
-          dataList.forEach(item2 => {
-            if (item == item2.FirstChar) {
-              list.push(item2);
-            }
-          })
-          newData.push({
-            initials: item,
-            list: list
-          });
-        })
-        console.log(newData)
-
-        this.navs = newData;
+        // this.navs = newData;
 
         // Indicator.close();
       }, res => {
