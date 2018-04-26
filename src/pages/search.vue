@@ -19,18 +19,21 @@
                     <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
                 </div>
                 <div @click="$refs.selectBrand.open()">
-                    <mt-cell title="汽车品牌" is-link value="请选择汽车品牌"><span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span></mt-cell>
+                    <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">
+                        <span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span>
+                    </mt-cell>
                 </div>
                 <div @click="$refs.selectBrandTree.open(search.brand.BrandID)">
-                    <mt-cell title="汽车车系" is-link value="请选择汽车车系"><span v-if="search.tree.VehicleName != ''">{{search.tree.VehicleName}}</span></mt-cell>
+                    <mt-cell title="汽车车系" is-link value="请选择汽车车系">
+                        <span v-if="search.tree.VehicleName != ''">{{search.tree.VehicleName}}</span>
+                    </mt-cell>
                 </div>
 
-                <div>
-                    <mt-cell title="车型" is-link value="请选择车型">  </mt-cell>
+                <div @click="SNclick()">
+                    <mt-cell title="车型" is-link value="请选择车型"> </mt-cell>
                 </div>
-                
 
-                 <br>
+                <br>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" @click="oneClick" style="width:80px;margin:0 10px;">搜索</mt-button>
@@ -43,7 +46,7 @@
                 <br>
                 <br>
                 <div class="inputRight">
-                <mt-field label="编号" placeholder="主机编号及厂家供编号" v-model="username"></mt-field>
+                    <mt-field label="编号" placeholder="主机编号及厂家供编号" v-model="username"></mt-field>
                 </div>
                 <br>
                 <div class="text-center">
@@ -57,7 +60,7 @@
                 <br>
                 <br>
                 <div class="inputRight">
-                <mt-field label="Vin码" placeholder="请输入Vin码" v-model="username"></mt-field>
+                    <mt-field label="Vin码" placeholder="请输入Vin码" v-model="username"></mt-field>
                 </div>
                 <br>
                 <div class="text-center">
@@ -70,7 +73,7 @@
                 <br>
                 <br>
                 <div class="inputRight">
-                <mt-field :label="item.ShowCaption" :placeholder="'请输入'+item.ShowCaption" v-model="username"></mt-field>
+                    <mt-field :label="item.ShowCaption" :placeholder="'请输入'+item.ShowCaption" v-model="username"></mt-field>
                 </div>
                 <br>
                 <div class="text-center">
@@ -86,12 +89,18 @@
 
         <!-- 选品牌 -->
         <select-brand-tree ref="selectBrandTree" @updata="updataBrandTree"></select-brand-tree>
+
+        <!-- 选车型 -->
+        <select-brand-SN ref="selectBrandSN" @updata="updataBrandSN"></select-brand-SN>
     </div>
 </template>
 
 <script>
 import selectBrand from '../components/selectBrand'
 import selectBrandTree from '../components/selectBrandTree'
+import selectBrandSN from '../components/selectBrandSN'
+import { Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
 export default {
     name: 'search',
     data() {
@@ -99,54 +108,59 @@ export default {
             selected: '1',
             tabsMore: [],
             pageId: '',
-            
+
             search: {
                 keywords: '',
-                brand:{
+                brand: {
                     BrandID: '',
-                    BrandName:'',
+                    BrandName: '',
                 },
-                tree:{
-                    VehicleID:'',
+                tree: {
+                    VehicleID: '',
                     VehicleName: '',
+                },
+                SN: {
+
                 }
             },
             username: '',
         }
     },
     created() {
+        Indicator.open();
         this.pageId = this.$route.params.id;
-        this.getField();
+        this.getNavs();
     },
     methods: {
-        //
-        // selectBrandTree(){
-        //     let id = this.search.BrandID;
-        //     if(id == ''){
-
-        //     }else{
-        //         ;
-        //     }
-        // },
-        updataBrandTree(item){
+        SNclick(){
+            if(this.search.tree.VehicleID || this.search.tree.VehicleID !== ''){
+                this.$refs.selectBrandSN.open(this.search.tree);//上一级数据传过去
+            }else{
+                Toast('请先选择车系');
+            }
+        },
+        updataBrandSN(item) {
+            this.search.SN = item;
+        },
+        updataBrandTree(item) {
             console.log(" ooo ")
             console.log(item)
             this.search.tree = item;
             // console.log(" ooo ")
         },
-        updataBrand(item){
+        updataBrand(item) {
             console.log(" jjj ")
             // console.log(item)
             this.search.brand = item;
             // console.log(" ooo ")
         },
-        getField() {
+        getNavs() {
             this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
+                Indicator.close();
                 // console.log(" 自定义导航 ")
                 // console.log(JSON.parse(res.data))
                 let getData = JSON.parse(res.data);
                 this.tabsMore = getData.DataList;
-                // Indicator.close();
             }, res => {
                 // error callback
             });
@@ -154,10 +168,10 @@ export default {
         //
         oneClick() {
             console.log('  j     jjjjjjj ');
-            if(this.search.keywords !== ''){
+            if (this.search.keywords !== '') {
                 // console.log(" 666 ")
                 // this.searchByKeywords();
-                this.$router.push('/home/detail/'+this.pageId+'&&'+this.search.keywords)
+                this.$router.push('/home/detail/' + this.pageId + '&&' + this.search.keywords)
             }
         },
         // searchByKeywords(){
@@ -181,6 +195,7 @@ export default {
     components: {
         'select-brand': selectBrand,
         'select-brand-tree': selectBrandTree,
+        'select-brand-SN': selectBrandSN,
     }
 }
 </script>
