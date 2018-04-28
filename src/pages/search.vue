@@ -30,14 +30,16 @@
                 </div>
 
                 <div @click="SNclick()">
-                    <mt-cell title="车型" is-link value="请选择车型"> </mt-cell>
+                    <mt-cell title="车型" is-link value="请选择车型">
+                        <span v-if="search.SN.BSX != ''">{{search.SN.BSX}}</span>
+                    </mt-cell>
                 </div>
 
                 <br>
                 <br>
                 <div class="text-center">
                     <mt-button size="small" type="primary" @click="oneClick" style="width:80px;margin:0 10px;">搜索</mt-button>
-                    <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
+                    <mt-button size="small" @click="clearTab1" style="width:80px;margin:0 10px;">清除</mt-button>
                 </div>
 
             </mt-tab-container-item>
@@ -120,7 +122,7 @@ export default {
                     VehicleName: '',
                 },
                 SN: {
-
+                    BSX:''
                 }
             },
             username: '',
@@ -132,6 +134,23 @@ export default {
         this.getNavs();
     },
     methods: {
+        //clearTab1
+        clearTab1(){
+            this.search = {
+                keywords: '',
+                brand: {
+                    BrandID: '',
+                    BrandName: '',
+                },
+                tree: {
+                    VehicleID: '',
+                    VehicleName: '',
+                },
+                SN: {
+                    BSX:''
+                }
+            }
+        },
         SNclick(){
             if(this.search.tree.VehicleID || this.search.tree.VehicleID !== ''){
                 this.$refs.selectBrandSN.open(this.search.tree);//上一级数据传过去
@@ -141,6 +160,7 @@ export default {
         },
         updataBrandSN(item) {
             this.search.SN = item;
+            console.log(item)
         },
         updataBrandTree(item) {
             console.log(" ooo ")
