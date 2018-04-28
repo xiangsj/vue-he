@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { Indicator } from 'mint-ui';
 export default {
   name: 'selectBrand',
   data() {
@@ -36,12 +37,14 @@ export default {
       console.log(item)
     },
     open(){
+      Indicator.open();
       // console.log(" kkk ")
       this.isOpen = true;
       this.getBrand();
     },
     getBrand() {
       this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
+        Indicator.close();
         // console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);
         let dataList = getData.DataList;
