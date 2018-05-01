@@ -1,7 +1,7 @@
 <template>
   <div class="selectBrand" v-if="isOpen">
 
-    <mt-header title="汽车车系">
+    <mt-header :title="'选择车系（' + BrandName + '）'">
       <router-link to="" slot="left">
         <mt-button icon="back" @click="isOpen=false">返回</mt-button>
       </router-link>
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      BrandName:'',
       navs: []
     }
   },
@@ -31,30 +32,20 @@ export default {
     Indicator.open();
   },
   methods: {
-    loadMore() {
-      this.loading = true;
-      setTimeout(() => {
-        let last = this.navs[this.navs.length - 1];
-        for (let i = 1; i <= 10; i++) {
-          this.navs.push(last + i);
-        }
-        this.loading = false;
-      }, 2500);
-    },
     sendBrandTree(item) {
       this.isOpen = false;
-      this.$emit("updata", item)
-      // console.log(item)
+      this.$emit("updata", item);
+      console.log(item.VehicleID)
     },
-    open(id) {
+    open(item) {
       Indicator.open();
-      console.log(id)
       this.isOpen = true;
-      this.getBrand(id);
+      this.getBrand(item);
+      this.BrandName = item.BrandName;
     },
-    getBrand(id) {
-
-      this.$http.get('/api/Vehicle/gh_6297f82da259/' + id).then(res => {
+    getBrand(item) {
+      if(!item.BrandID){return;}
+      this.$http.get('/api/Vehicle/gh_6297f82da259/' + item.BrandID).then(res => {
         Indicator.close();
         // console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);

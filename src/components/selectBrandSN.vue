@@ -1,7 +1,7 @@
 <template>
   <div class="selectBrand" v-if="isOpen">
 
-    <mt-header title="车型">
+    <mt-header :title="'选择车型（' + name + '）'">
       <router-link to="" slot="left">
         <mt-button icon="back" @click="isOpen=false">返回</mt-button>
       </router-link>
@@ -26,40 +26,31 @@ export default {
   data() {
     return {
       isOpen: false,
+      name:'',
       navs: []
     }
   },
   created() {
-    // Indicator.open();
   },
   methods: {
-    loadMore() {
-      this.loading = true;
-      setTimeout(() => {
-        let last = this.navs[this.navs.length - 1];
-        for (let i = 1; i <= 10; i++) {
-          this.navs.push(last + i);
-        }
-        this.loading = false;
-      }, 2500);
-    },
     sendBrandTree(item) {
       this.isOpen = false;
       this.$emit("updata", item)
-      // console.log(item)
+      console.log(item.StyleID)
     },
-    open(item) {
-      this.isOpen = true;
+    open(item,brand) {
       Indicator.open();
-      console.log(item)
+      this.isOpen = true;
+      // console.log(item)
       this.getBrand(item);
+      this.name = brand.BrandName + ' - ' + item.VehicleName;
     },
     getBrand(item) {
       let url = '/api/Style/gh_6297f82da259/'+item.BrandID+'/'+item.VehicleID;
 
       this.$http.get(url).then(res => {
         Indicator.close();
-        console.log(JSON.parse(res.data))
+        // console.log(JSON.parse(res.data))
         let getData = JSON.parse(res.data);
         let dataList = getData.DataList;
         this.navs = dataList;

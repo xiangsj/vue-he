@@ -30,11 +30,6 @@ body {
     height: 100%;
     >.index {
         // border: 1px solid blue;
-        img.logo {
-            // border: 1px solid red;
-            margin: 15px auto 15px;
-            max-width: 130px;
-        }
         ul.nav {
             // border: 1px solid red;
             margin: 0 45px;
@@ -65,46 +60,127 @@ body {
         img.logo {
             margin: 15px auto 15px;
             max-width: 130px;
-        }
-        // .searchOne{
+        } // .searchOne{
         //     // border: 1px solid red;
-            
         // }
     }
-    .inputRight{
-        .mint-field-core{
+    .inputRight {
+        .mint-field-core {
             text-align: right;
             padding-right: 8px;
         }
     }
 }
 
-.scrollList{
+.scrollList {
     position: absolute;
     left: 0;
-    top:40px;
+    top: 40px;
     right: 0;
-    bottom: 0;
-    // border:1px solid red;
-     overflow:auto;
-    >li{
+    bottom: 0; // border:1px solid red;
+    overflow: auto;
+    >li {
         // border: 1px solid blue;
         font-size: 15px;
-        padding:12px 15px;
+        padding: 12px 15px;
         border-bottom: 1px solid #eee;
     }
 }
-.navbar{
+
+img.logo {
+    // border: 1px solid red;
+    margin: 15px auto 15px;
+    max-width: 100px;
+}
+
+.navbar {
     // border: 2px solid red;
-    .mint-tab-item-label{
-        font-size: 14px;
+    border-bottom: 3px solid #f9f9f9;
+    .mint-tab-item-label {
+        font-size: 15px;
     }
 }
 
-//
-.search{
+.search {
     // border: 1px solid red;
-    .tabContent{
-        
+    .tabContent {
+        // border: 1px solid red;
+        margin-top: 30px;
+        min-height: 260px;
+        position: relative;
+        .text-center {
+            // margin-top: 30px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            .mint-button {
+                width: 100px;
+                margin: 0 10px;
+            }
+        }
+    }
+}
+
+.tableWrap {
+    margin: 0 10px;
+    >table{
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+    >table.hasBorder {
+        td {
+            border: 1px solid #eee;
+            padding: 8px 10px;
+        }
+    }
+    >table.noBorder{
+        // border: 1px solid blue;
+        tr{
+            border-top: 1px solid #f9f9f9;
+            &:first-child{
+                border-top: none;
+            }
+        }
+        td{
+            padding: 8px 10px;
+            .listPic{
+                width: 88px;
+                height: 88px;
+                border-radius: 4px;
+            }
+            .noPic{
+                // border: 1px solid red;
+                height: 88px;
+                line-height: 88px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                width: 88px;
+                color: #999;
+            }
+        }
+    }
+    >table.detailOnly{
+        // border: 1px solid red;
+        caption{
+            margin: 0 30px 6px 0;
+            >span{
+                // background: red;
+                // display: inline-block;
+                float: left;
+                width: 50%;
+                img{
+                    width: 122px;
+                    height: 122px;
+                    border-radius: 4px;
+                }
+            }
+        }
+        tr{
+            td{
+                padding: 8px 0;
+            }
+        }
     }
 }

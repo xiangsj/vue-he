@@ -1,7 +1,7 @@
 <template>
   <div class="selectBrand" v-if="isOpen">
 
-    <mt-header title="汽车品牌">
+    <mt-header title="选择品牌">
       <router-link to="" slot="left">
         <mt-button icon="back" @click="isOpen=false">返回</mt-button>
       </router-link>
@@ -34,7 +34,7 @@ export default {
     sendBrand(item){
       this.isOpen = false;
       this.$emit("updata",item)
-      console.log(item)
+      console.log(item.BrandID)
     },
     open(){
       Indicator.open();

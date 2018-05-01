@@ -1,32 +1,33 @@
 <template>
-<div>
-    <div class="tabContent searchBody1">
-        <div class="inputRight">
-            <mt-field label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
-        </div>
-        <div @click="$refs.selectBrand.open()">
-            <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">
-                <span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span>
-            </mt-cell>
-        </div>
-        <div @click="treeClick()">
-            <mt-cell title="汽车车系" is-link value="请选择汽车车系">
-                <span v-if="search.tree.VehicleName != ''">{{search.tree.VehicleName}}</span>
-            </mt-cell>
+    <div>
+        <div class="tabContent searchBody1">
+            <mt-field class="inputRight" label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
+
+            <div @click="$refs.selectBrand.open()">
+                <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">
+                    <span v-if="search.brand.BrandName != ''">{{search.brand.BrandName}}</span>
+                </mt-cell>
+            </div>
+
+            <div @click="treeClick()">
+                <mt-cell title="汽车车系" is-link value="请选择汽车车系">
+                    <span v-if="search.tree.VehicleName != ''">{{search.tree.VehicleName}}</span>
+                </mt-cell>
+            </div>
+
+            <div @click="SNclick()">
+                <mt-cell title="车型" is-link value="请选择车型">
+                    <span v-if="search.SN.BSX != ''">{{search.SN.BSX}}</span>
+                </mt-cell>
+            </div>
+
+            <div class="text-center">
+                <mt-button size="small" type="primary" @click="submit()">搜索</mt-button>
+                <mt-button size="small" @click="clear()">清除</mt-button>
+            </div>
         </div>
 
-        <div @click="SNclick()">
-            <mt-cell title="车型" is-link value="请选择车型">
-                <span v-if="search.SN.BSX != ''">{{search.SN.BSX}}</span>
-            </mt-cell>
-        </div>
-        <div class="text-center">
-            <mt-button size="small" type="primary" @click="oneClick" style="width:80px;margin:0 10px;">搜索</mt-button>
-            <mt-button size="small" @click="clearTab1" style="width:80px;margin:0 10px;">清除</mt-button>
-        </div>
-    </div>
-
-    <!-- 选品牌 -->
+        <!-- 选品牌 -->
         <select-brand ref="selectBrand" @updata="updataBrand"></select-brand>
 
         <!-- 选品牌 -->
@@ -34,15 +35,25 @@
 
         <!-- 选车型 -->
         <select-brand-SN ref="selectBrandSN" @updata="updataBrandSN"></select-brand-SN>
-</div>
+    </div>
 </template>
 
 <script>
 import selectBrand from '../components/selectBrand'
 import selectBrandTree from '../components/selectBrandTree'
 import selectBrandSN from '../components/selectBrandSN'
+import { Toast } from 'mint-ui';
+
 export default {
     name: 'searchBody1',
+    props:{
+        mSortNo: {
+            type: String,
+            default: function(){
+                return ''
+            }
+        }
+    },
     data() {
         return {
             search: {
@@ -56,6 +67,7 @@ export default {
                     VehicleName: '',
                 },
                 SN: {
+                    StyleID:'',
                     BSX: ''
                 }
             },
@@ -65,15 +77,77 @@ export default {
 
     },
     methods: {
-        treeClick(){
-            if(this.search.brand.BrandID != ''){
-                this.$refs.selectBrandTree.open()
-            }else{
+        treeClick() {
+            let brand = this.search.brand;
+            if (brand.BrandID != '') {
+                this.$refs.selectBrandTree.open(brand)
+            } else {
                 Toast('请先选择品牌');
             }
         },
-        //clearTab1
-        clearTab1() {
+        SNclick() {
+            let brand = this.search.brand;
+            let tree = this.search.tree;
+            if (tree.VehicleID != '') {
+                this.$refs.selectBrandSN.open(tree,brand);//上一级数据传过去
+            } else {
+                Toast('请先选择车系');
+            }
+        },
+
+        updataBrandSN(item) {
+            this.search.SN = item;
+            // console.log(this.search.SN)
+        },
+        updataBrandTree(item) {
+            this.search.tree = item;
+        },
+        updataBrand(item) {
+            this.search.brand = item;
+            // this.search.keywords = '';
+        },
+
+        submit() {
+            // console.log(this.search)
+            if(this.search.keywords === ''){
+                Toast('请输入搜索关键字');
+                return;
+            }
+            if(this.search.brand.BrandID === ''){
+                Toast('请选择汽车品牌');
+                return;
+            }
+            if(this.search.tree.VehicleID === ''){
+                Toast('请选择车系');
+                return;
+            }
+            if(this.search.SN.StyleID === ''){
+                Toast('请选择车型');
+                return;
+            }
+            let data = {
+                keywords: this.search.keywords,
+                BrandID: this.search.brand.BrandID,
+                VehicleID: this.search.tree.VehicleID,
+                StyleID: this.search.SN.StyleID,
+                mSortNo: this.mSortNo,
+
+                BrandName: this.search.brand.BrandName,
+                VehicleName: this.search.tree.VehicleName,
+                BSX: this.search.SN.BSX,
+            }
+            let url = '/home/detail1/' + 
+            // this.search.keywords + '&&' +
+            // this.search.brand.BrandID + '&&' +
+            // this.search.tree.VehicleID + '&&' +
+            // this.search.SN.StyleID + '&&' +
+            // this.mSortNo +
+            JSON.stringify(data);
+            // let url = '/home/detail1/' + this.search;
+            this.$router.push(url)
+
+        },
+        clear() {
             this.search = {
                 keywords: '',
                 brand: {
@@ -88,37 +162,7 @@ export default {
                     BSX: ''
                 }
             }
-        },
-        SNclick() {
-            if (this.search.tree.VehicleID != '') {
-                this.$refs.selectBrandSN.open(this.search.tree);//上一级数据传过去
-            } else {
-                Toast('请先选择车系');
-            }
-        },
-        updataBrandSN(item) {
-            this.search.SN = item;
-            console.log(item)
-        },
-        updataBrandTree(item) {
-            console.log(" ooo ")
-            console.log(item)
-            this.search.tree = item;
-            // console.log(" ooo ")
-        },
-        updataBrand(item) {
-            console.log(" jjj ")
-            // console.log(item)
-            this.search.brand = item;
-            // console.log(" ooo ")
-        },
-        oneClick() {
-            console.log('  j     jjjjjjj ');
-            if (this.search.keywords !== '') {
-                // console.log(" 666 ")
-                // this.searchByKeywords();
-                this.$router.push('/home/detail/' + this.pageId + '&&' + this.search.keywords)
-            }
+            Toast('已清空');
         },
     },
     components: {
