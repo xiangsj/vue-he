@@ -35,41 +35,51 @@
 
             <table class="detailOnly" style="margin-top:10px;" v-for="(item,index) in dom" :key="index">
                 <caption>
-                    <span>
+                    <span v-if="item.MainPath">
                         <img :src="item.MainPath">
                     </span>
-                    <span>
+                    <span v-if="item.SubPath">
                         <img :src="item.SubPath">
                     </span>
                 </caption>
+                <tbody>
                 <tr>
-                    <td>产品名称</td>
+                    <td style="width:100px;">产品名称</td>
                     <td>{{item.Brand}} {{item.Item_C_Name}}</td>
                 </tr>
                 <tr>
-                    <td>EngineNo</td>
+                    <td>主机编号</td>
                     <td>{{item.EngineNo}}</td>
-                </tr>
+                </tr>                
                 <tr>
-                    <td>Unit</td>
-                    <td>{{item.Unit}}</td>
-                </tr>
-                <tr>
-                    <td>ProvItemNo</td>
+                    <td>厂家供货编号</td>
                     <td>{{item.ProvItemNo}}</td>
                 </tr>
                 <tr>
-                    <td>Item_C_Spec</td>
+                    <td>配件规格</td>
                     <td>{{item.Item_C_Spec}}</td>
                 </tr>
                 <tr>
-                    <td>ProdItemReplace</td>
+                    <td>单车用量</td>
+                    <td>{{item.CarQty}}</td>
+                </tr>
+                <tr>
+                    <td>单箱数量</td>
+                    <td>{{item.BoxQty}}</td>
+                </tr>
+                <tr>
+                    <td>可替换产品</td>
                     <td>{{item.ProdItemReplace}}</td>
                 </tr>
                 <tr>
-                    <td>ZhujiNo</td>
-                    <td>{{item.ZhujiNo}}</td>
+                    <td>单位</td>
+                    <td>{{item.Unit}}</td>
                 </tr>
+                <tr>
+                    <td>ZhujiNo</td>
+                    <td><div style="max-width:200px;">{{item.ZhujiNo}}</div></td>
+                </tr>
+                </tbody>
             </table>
         </div>
 

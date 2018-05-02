@@ -109,22 +109,22 @@ export default {
 
         submit() {
             // console.log(this.search)
-            if(this.search.keywords === ''){
-                Toast('请输入搜索关键字');
+            if(this.search.keywords === '' && this.search.brand.BrandID === ''){
+                Toast('请输入搜索关键字或汽车品牌');
                 return;
             }
-            if(this.search.brand.BrandID === ''){
-                Toast('请选择汽车品牌');
-                return;
-            }
-            if(this.search.tree.VehicleID === ''){
-                Toast('请选择车系');
-                return;
-            }
-            if(this.search.SN.StyleID === ''){
-                Toast('请选择车型');
-                return;
-            }
+            // if(this.search.brand.BrandID === ''){
+            //     Toast('请选择汽车品牌');
+            //     return;
+            // }
+            // if(this.search.tree.VehicleID === ''){
+            //     Toast('请选择车系');
+            //     return;
+            // }
+            // if(this.search.SN.StyleID === ''){
+            //     Toast('请选择车型');
+            //     return;
+            // }
             let data = {
                 keywords: this.search.keywords,
                 BrandID: this.search.brand.BrandID,
@@ -145,7 +145,6 @@ export default {
             JSON.stringify(data);
             // let url = '/home/detail1/' + this.search;
             this.$router.push(url)
-
         },
         clear() {
             this.search = {

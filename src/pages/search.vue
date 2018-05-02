@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">
+            <!--<img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">-->
         </div>
         <mt-navbar class="navbar" v-model="selected">
             <mt-tab-item id="1">车型</mt-tab-item>
@@ -12,7 +12,6 @@
 
         <!-- tab-container -->
         <mt-tab-container v-model="selected">
-
             <mt-tab-container-item id="1">
                 <search-body-1 :mSortNo="mSortNo"></search-body-1>
             </mt-tab-container-item>
@@ -23,27 +22,10 @@
 
             <mt-tab-container-item id="3">
                 <search-body-3 :mSortNo="mSortNo"></search-body-3>
-                <!-- <div class="tabContent">
-                    <div class="inputRight">
-                        <mt-field label="Vin码" placeholder="请输入Vin码" v-model="username"></mt-field>
-                    </div>
-                    <div class="text-center">
-                        <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
-                        <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
-                    </div>
-                </div> -->
             </mt-tab-container-item>
+            
             <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="index">
                 <search-body-4 :mSortNo="mSortNo" :itemData="item"></search-body-4>
-                <!-- <div class="tabContent">
-                    <div class="inputRight">
-                        <mt-field :label="item.ShowCaption" :placeholder="'请输入'+item.ShowCaption" v-model="username"></mt-field>
-                    </div>
-                    <div class="text-center">
-                        <mt-button size="small" type="primary" style="width:80px;margin:0 10px;">搜索</mt-button>
-                        <mt-button size="small" style="width:80px;margin:0 10px;">清除</mt-button>
-                    </div>
-                </div> -->
             </mt-tab-container-item>
         </mt-tab-container>
 
