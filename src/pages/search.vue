@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="text-center">
-            <!--<img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">-->
+            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">
         </div>
         <mt-navbar class="navbar" v-model="selected">
             <mt-tab-item id="1">车型</mt-tab-item>
@@ -23,7 +23,7 @@
             <mt-tab-container-item id="3">
                 <search-body-3 :mSortNo="mSortNo"></search-body-3>
             </mt-tab-container-item>
-            
+
             <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="index">
                 <search-body-4 :mSortNo="mSortNo" :itemData="item"></search-body-4>
             </mt-tab-container-item>
