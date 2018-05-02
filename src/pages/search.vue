@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201804/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
         </div>
         <mt-navbar class="navbar" v-model="selected">
             <mt-tab-item id="1">车型</mt-tab-item>
