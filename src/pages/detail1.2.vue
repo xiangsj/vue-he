@@ -1,41 +1,8 @@
 <template>
-    <div class="detail" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-        <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
-        </div>
-        <div class="tableWrap">
-            <table class="hasBorder">
-                <tr>
-                    <td width=100>品牌</td>
-                    <td>{{obj.BrandName}}</td>
-                </tr>
-                <tr>
-                    <td>车型</td>
-                    <td>{{obj.VehicleName}}</td>
-                </tr>
-                <tr>
-                    <td>车系</td>
-                    <td>{{obj.BSX}}</td>
-                </tr>
-            </table>
-
-            <table class="noBorder" style="margin-top:10px;">
-                <tr v-for="(item,index) in dom" :key="index" @click="openDetail(item)">
-                    <td width=100>
-                        <!-- <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage"> -->
-                        <img class="listPic" v-if="item.MainPath && item.MainPath !== ''" :src="item.MainPath">
-                        <div v-else class="text-center noPic">暂无图片</div>
-                    </td>
-                    <td>
-                        <div>{{item.Brand}}</div>
-                        <div>{{item.Item_C_Name}}</div>
-                        <div>{{item.Item_C_Spec}}</div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- {{dom}} -->
+    <div class="detail">
+        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+            <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ item }}</li>
+        </ul>
     </div>
 </template>
 
@@ -46,22 +13,28 @@ export default {
     name: 'detail',
     data() {
         return {
-            // loading: true,
+            loading:false,
+            list: [1, 2, 2, 2, 2, 2, 2, 2],
             obj: {},
             dom: ''
         }
     },
     created() {
         Indicator.open();
+        // console.log(' jjjjjjj ')
         let obj = {}
         try {
-            // console.log(JSON.parse(this.$route.params.string))
+            console.log(JSON.parse(this.$route.params.string))
             obj = JSON.parse(this.$route.params.string);
             this.obj = obj;
         } catch (e) {
             this.nothing();
             return;
         }
+
+        // let strArr = this.$route.params.string.split('&&');
+        // // console.log(' jjjjjjj ')
+        // // console.log(strArr)
 
         let data = {
             weiXinCode: 'gh_6297f82da259',
@@ -71,7 +44,7 @@ export default {
             styleID: obj.StyleID,
             mSortNo: obj.mSortNo,
             pageIndex: 1,
-            pageSize: 5
+            pageSize: 3
         }
         this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
             Indicator.close();
@@ -93,15 +66,14 @@ export default {
     },
     methods: {
         loadMore() {
-            console.log(" >>>>>>. ")
             this.loading = true;
-            // setTimeout(() => {
-            //     let last = this.list[this.list.length - 1];
-            //     for (let i = 1; i <= 10; i++) {
-            //         this.list.push(last + i);
-            //     }
-            //     this.loading = false;
-            // }, 2500);
+            setTimeout(() => {
+                let last = this.list[this.list.length - 1];
+                for (let i = 1; i <= 10; i++) {
+                    this.list.push(last + i);
+                }
+                this.loading = false;
+            }, 2500);
         },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
