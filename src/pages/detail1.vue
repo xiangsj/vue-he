@@ -1,5 +1,5 @@
 <template>
-    <div class="detail" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+    <div class="detail">
         <div class="text-center">
             <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
         </div>
@@ -19,7 +19,8 @@
                 </tr>
             </table>
 
-            <table class="noBorder" style="margin-top:10px;">
+            <table class="noBorder" style="margin-top:10px;" 
+            v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="5">
                 <tr v-for="(item,index) in dom" :key="index" @click="openDetail(item)">
                     <td width=100>
                         <!-- <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage"> -->
@@ -32,10 +33,21 @@
                         <div>{{item.Item_C_Spec}}</div>
                     </td>
                 </tr>
+                <!-- <ul>
+                            <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ index }}</li>
+                        </ul> -->
+                <!-- <tfoot v-if="loading">
+                        <tr>
+                            <td align="center">努力加载中...</td>
+                        </tr>
+                    </tfoot> -->
             </table>
-        </div>
 
-        <!-- {{dom}} -->
+            <div class="getMore text-center" v-if="loading">
+                <span>努力加载中...</span>
+                <div class="noMore" v-if="noMore">没有更多了</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -46,16 +58,22 @@ export default {
     name: 'detail',
     data() {
         return {
-            // loading: true,
+            loading: false,
+            noMore: false,
             obj: {},
-            dom: ''
+            dom: [],
+            pageIndex: 1,
+            pageSize: 5,
+            // list: [1, 2, 2, 2, 2, 2],
+
         }
     },
     created() {
         Indicator.open();
+        // console.log(' jjjjjjj ')
         let obj = {}
         try {
-            // console.log(JSON.parse(this.$route.params.string))
+            console.log(JSON.parse(this.$route.params.string))
             obj = JSON.parse(this.$route.params.string);
             this.obj = obj;
         } catch (e) {
@@ -65,13 +83,13 @@ export default {
 
         let data = {
             weiXinCode: 'gh_6297f82da259',
-            searchWords: obj.keywords,
-            brandID: obj.BrandID,
-            vehicleID: obj.VehicleID,
-            styleID: obj.StyleID,
-            mSortNo: obj.mSortNo,
-            pageIndex: 1,
-            pageSize: 5
+            searchWords: this.obj.keywords,
+            brandID: this.obj.BrandID,
+            vehicleID: this.obj.VehicleID,
+            styleID: this.obj.StyleID,
+            mSortNo: this.obj.mSortNo,
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize
         }
         this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
             Indicator.close();
@@ -93,15 +111,32 @@ export default {
     },
     methods: {
         loadMore() {
-            console.log(" >>>>>>. ")
+            console.log(" ddd ")
             this.loading = true;
-            // setTimeout(() => {
-            //     let last = this.list[this.list.length - 1];
-            //     for (let i = 1; i <= 10; i++) {
-            //         this.list.push(last + i);
-            //     }
-            //     this.loading = false;
-            // }, 2500);
+
+            this.pageIndex++;
+            let data = {
+                weiXinCode: 'gh_6297f82da259',
+                searchWords: this.obj.keywords,
+                brandID: this.obj.BrandID,
+                vehicleID: this.obj.VehicleID,
+                styleID: this.obj.StyleID,
+                mSortNo: this.obj.mSortNo,
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
+                // Indicator.close();
+                // console.log(" iiiiiiiiiiiiii ")
+                console.log(JSON.parse(res.data).DataList)
+                let DataList = JSON.parse(res.data).DataList;
+                this.dom = this.dom.concat(DataList);
+                this.loading = false;
+                this.noMore = DataList.length === 0 ? true : false;
+
+            }, res => {
+                // error callback
+            });
         },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {

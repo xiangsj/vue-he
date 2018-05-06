@@ -39,7 +39,6 @@ import searchBody3 from './searchBody3'
 import searchBody4 from './searchBody4'
 
 import { Indicator } from 'mint-ui';
-import { Toast } from 'mint-ui';
 export default {
     name: 'search',
     data() {

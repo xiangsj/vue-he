@@ -18,7 +18,8 @@
                     <td>{{obj.BSX}}</td>
                 </tr>
             </table>
-
+            
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
             <table class="noBorder" style="margin-top:20px;">
                 <tr v-for="(item,index) in dom" :key="index">
                     <td width=100>
@@ -32,6 +33,12 @@
                     </td>
                 </tr>
             </table>
+            </div>
+            <div class="getMore text-center" v-if="loading">
+                <span>努力加载中...</span>
+                <div class="noMore" v-if="noMore">没有更多了</div>
+            </div>
+
         </div>
 
         <!-- {{dom}} -->
@@ -45,8 +52,12 @@ export default {
     name: 'detail',
     data() {
         return {
+            loading: false,
+            noMore: false,
             obj: {},
-            dom: ''
+            dom:[],
+            pageIndex: 1,
+            pageSize: 5,
         }
     },
     created() {
@@ -63,9 +74,11 @@ export default {
 
         let data = {
             weiXinCode: 'gh_6297f82da259',
-            designFieldId: obj.designFieldId,
-            inputValue: obj.inputValue,
-            mSortNo: obj.mSortNo,
+            designFieldId: this.obj.designFieldId,
+            inputValue: this.obj.inputValue,
+            mSortNo: this.obj.mSortNo,
+            pageIndex: this.pageIndex,
+             pageSize: this.pageSize
         }
         this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
             Indicator.close();
@@ -86,6 +99,50 @@ export default {
         });
     },
     methods: {
+        loadMore() {
+            console.log(" ddd ")
+            this.loading = true;
+
+            this.pageIndex++;
+
+            let data = {
+                weiXinCode: 'gh_6297f82da259',
+                designFieldId: this.obj.designFieldId,
+                inputValue: this.obj.inputValue,
+                mSortNo: this.obj.mSortNo,
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
+                console.log(JSON.parse(res.data).DataList)
+                    let DataList = JSON.parse(res.data).DataList;
+                    this.dom = this.dom.concat(DataList);
+                    this.loading = false;
+                    this.noMore = DataList.length === 0 ? true : false;
+            }, res => {
+                // error callback
+            });
+            
+            // let strArr = this.$route.params.string.split('&&');
+            // let data = {
+            //     weiXinCode: 'gh_6297f82da259',
+            //     inputValue: strArr[0],
+            //     mSortNo: strArr[1],
+            //     pageIndex: this.pageIndex,
+            //     pageSize: this.pageSize
+            // }
+            // this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
+            //     console.log(JSON.parse(res.data).DataList)
+            //     let DataList = JSON.parse(res.data).DataList;
+            //     this.dom = this.dom.concat(DataList);
+            //     this.loading = false;
+            //     this.noMore = DataList.length === 0 ? true : false;
+
+            // }, res => {
+            //     // error callback
+            // });
+            
+        },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
                 this.$router.go(-1);

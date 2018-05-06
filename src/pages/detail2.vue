@@ -7,6 +7,7 @@
             <div>
 
             </div>
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
             <table class="noBorder" style="margin-top:20px;" v-for="(item,index) in dom" :key="index">
                 <caption>
                     <span v-if="item.MainPath">
@@ -55,6 +56,16 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
+
+            <!-- <ul >
+                <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ item }}</li>
+            </ul> -->
+            <div class="getMore text-center" v-if="loading">
+                <span>努力加载中...</span>
+                <div class="noMore" v-if="noMore">没有更多了</div>
+            </div>
+            
         </div>
 
         <!-- {{dom}} -->
@@ -68,7 +79,13 @@ export default {
     name: 'detail',
     data() {
         return {
-            dom: ''
+            loading: false,
+            noMore: false,
+            dom:[],
+            pageIndex: 1,
+            pageSize: 5,
+                        // list: [1, 2, 2, 2, 2, 2, 2, 2],
+
         }
     },
     created() {
@@ -80,7 +97,9 @@ export default {
         let data = {
             weiXinCode: 'gh_6297f82da259',
             inputValue: strArr[0],
-            mSortNo: strArr[1]
+            mSortNo: strArr[1],
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize
         }
         this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
             Indicator.close();
@@ -102,6 +121,53 @@ export default {
         });
     },
     methods: {
+        loadMore() {
+            console.log(" ddd ")
+            this.loading = true;
+
+            this.pageIndex++;
+            let strArr = this.$route.params.string.split('&&');
+            let data = {
+                weiXinCode: 'gh_6297f82da259',
+                inputValue: strArr[0],
+                mSortNo: strArr[1],
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
+                console.log(JSON.parse(res.data).DataList)
+                let DataList = JSON.parse(res.data).DataList;
+                this.dom = this.dom.concat(DataList);
+                this.loading = false;
+                this.noMore = DataList.length === 0 ? true : false;
+
+            }, res => {
+                // error callback
+            });
+            
+            // let data = {
+            //     weiXinCode: 'gh_6297f82da259',
+            //     searchWords: this.obj.keywords,
+            //     brandID: this.obj.BrandID,
+            //     vehicleID: this.obj.VehicleID,
+            //     styleID: this.obj.StyleID,
+            //     mSortNo: this.obj.mSortNo,
+            //     pageIndex: this.pageIndex,
+            //     pageSize: this.pageSize
+            // }
+            // this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
+            //     // Indicator.close();
+            //     // console.log(" iiiiiiiiiiiiii ")
+            //     console.log(JSON.parse(res.data).DataList)
+            //     let DataList = JSON.parse(res.data).DataList;
+            //     this.dom = this.dom.concat(DataList);
+            //     this.loading = false;
+            //     this.noMore = DataList.length === 0 ? true : false;
+
+            // }, res => {
+            //     // error callback
+            // });
+        },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
                 this.$router.go(-1);
