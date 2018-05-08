@@ -9,6 +9,7 @@ import detail1 from '@/pages/detail1'
 import detail1_1 from '@/pages/detail1_1'
 import detail2 from '@/pages/detail2'
 import detail4 from '@/pages/detail4'
+import login from '@/pages/login'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/home',
