@@ -29,8 +29,21 @@ export default {
         Indicator.open();
         this.getMenu();
         this.getLogin();
+
+        this.isPower();
     },
     methods: {
+        isPower() {
+            this.$http.get('/api/Login'+'?weiXinCode=gh_6297f82da259').then(res => {
+                console.log(" login ")
+                console.log(JSON.parse(res.data))
+                let getData = JSON.parse(res.data);
+                // this.homeList = getData.DataList;
+                // Indicator.close();
+            }, res => {
+                // error callback
+            });
+        },
         goSearch(FID) {
             this.$router.push('/home/search/'+FID)
         },
