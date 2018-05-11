@@ -1,10 +1,10 @@
 <template>
     <div class="index">
         <div class="text-center">
-            <img class="logo" :src="logoUrl">
+            <!--<img class="logo" :src="logoUrl">-->
             <ul class="nav">
                 <li v-for="(item,index) in homeList" :key="index" @click="goSearch(item.FID)">
-                    <img :src="item.SortPath">
+                    <!--<img :src="item.SortPath">-->
                     <div>{{item.SortName}}</div>
                 </li>
             </ul>
@@ -27,17 +27,17 @@ export default {
     },
     created() {
         Indicator.open();
-        this.getMenu();
-        this.getLogin();
+        // this.getMenu();
+        // this.getLogin();
 
         this.isPower();
     },
     methods: {
         isPower() {
-            this.$http.get('/api/Login'+'?weiXinCode=gh_6297f82da259').then(res => {
-                console.log(" login ")
-                console.log(JSON.parse(res.data))
-                let getData = JSON.parse(res.data);
+            this.axios.get('/api/Login' + '?weiXinCode=gh_6297f82da259').then(res => {
+                // console.log(" login ")
+                console.log(res)
+                // let getData = JSON.parse(res.data);
                 // this.homeList = getData.DataList;
                 // Indicator.close();
             }, res => {
@@ -45,26 +45,22 @@ export default {
             });
         },
         goSearch(FID) {
-            this.$router.push('/home/search/'+FID)
+            this.$router.push('/home/search/' + FID)
         },
+        // console.log(" 首页产品按钮 ")
         getMenu() {
             this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
-                console.log(" 首页产品按钮 ")
-                console.log(JSON.parse(res.data))
-                let getData = JSON.parse(res.data);
-                this.homeList = getData.DataList;
+                this.homeList = res.DataList;
                 Indicator.close();
             }, res => {
                 // error callback
             });
         },
+        // console.log(" 登录信息 ")
         getLogin() {
             this.$http.get('/api/CustomerList?weiXinCode=gh_6297f82da259').then(res => {
-                console.log(" 登录信息 ")
-                let getData = JSON.parse(res.data);
-                console.log(getData)
-                this.logoUrl = getData.DataList[0].LogoPath;
-                this.company = getData.DataList[0].CustName;
+                this.logoUrl = res.DataList[0].LogoPath;
+                this.company = res.DataList[0].CustName;
             }, res => {
                 // error callback
             });
