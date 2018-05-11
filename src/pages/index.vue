@@ -27,14 +27,14 @@ export default {
     },
     created() {
         Indicator.open();
-        // this.getMenu();
-        // this.getLogin();
+        this.getMenu();
+        this.getLogin();
 
         this.isPower();
     },
     methods: {
         isPower() {
-            this.axios.get('/api/Login' + '?weiXinCode=gh_6297f82da259').then(res => {
+            this.$http.get('/api/Login', {params:{}}).then(res => {
                 // console.log(" login ")
                 console.log(res)
                 // let getData = JSON.parse(res.data);
@@ -49,7 +49,7 @@ export default {
         },
         // console.log(" 首页产品按钮 ")
         getMenu() {
-            this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
+            this.$http.get('/api/ProdSort/gh_6297f82da259', {params:{}}).then(res => {
                 this.homeList = res.DataList;
                 Indicator.close();
             }, res => {
@@ -58,7 +58,7 @@ export default {
         },
         // console.log(" 登录信息 ")
         getLogin() {
-            this.$http.get('/api/CustomerList?weiXinCode=gh_6297f82da259').then(res => {
+            this.$http.get('/api/CustomerList', {params:{}}).then(res => {
                 this.logoUrl = res.DataList[0].LogoPath;
                 this.company = res.DataList[0].CustName;
             }, res => {
