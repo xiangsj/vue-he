@@ -46,10 +46,10 @@ import { Toast } from 'mint-ui';
 
 export default {
     name: 'searchBody1',
-    props:{
+    props: {
         mSortNo: {
             type: String,
-            default: function(){
+            default: function() {
                 return ''
             }
         }
@@ -67,7 +67,7 @@ export default {
                     VehicleName: '',
                 },
                 SN: {
-                    StyleID:'',
+                    StyleID: '',
                     BSX: ''
                 }
             },
@@ -89,7 +89,7 @@ export default {
             let brand = this.search.brand;
             let tree = this.search.tree;
             if (tree.VehicleID != '') {
-                this.$refs.selectBrandSN.open(tree,brand);//上一级数据传过去
+                this.$refs.selectBrandSN.open(tree, brand);//上一级数据传过去
             } else {
                 Toast('请先选择车系');
             }
@@ -109,7 +109,7 @@ export default {
 
         submit() {
             // console.log(this.search)
-            if(this.search.keywords === '' && this.search.brand.BrandID === ''){
+            if (this.search.keywords === '' && this.search.brand.BrandID === '') {
                 Toast('请输入搜索关键字或汽车品牌');
                 return;
             }
@@ -136,13 +136,13 @@ export default {
                 VehicleName: this.search.tree.VehicleName,
                 BSX: this.search.SN.BSX,
             }
-            let url = '/home/detail1/' + 
-            // this.search.keywords + '&&' +
-            // this.search.brand.BrandID + '&&' +
-            // this.search.tree.VehicleID + '&&' +
-            // this.search.SN.StyleID + '&&' +
-            // this.mSortNo +
-            JSON.stringify(data);
+            let url = '/home/detail1/' +
+                // this.search.keywords + '&&' +
+                // this.search.brand.BrandID + '&&' +
+                // this.search.tree.VehicleID + '&&' +
+                // this.search.SN.StyleID + '&&' +
+                // this.mSortNo +
+                JSON.stringify(data);
             // let url = '/home/detail1/' + this.search;
             this.$router.push(url)
         },

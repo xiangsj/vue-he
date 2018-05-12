@@ -28,26 +28,26 @@ export default {
     }
   },
   created() {
-    
+
   },
   methods: {
-    sendBrand(item){
+    sendBrand(item) {
       this.isOpen = false;
-      this.$emit("updata",item)
+      this.$emit("updata", item)
       console.log(item.BrandID)
     },
-    open(){
+    open() {
       Indicator.open();
       // console.log(" kkk ")
       this.isOpen = true;
       this.getBrand();
     },
     getBrand() {
-      this.$http.get('/api/Brand/gh_6297f82da259').then(res => {
+      this.$http.get('/api/Brand', { params: {} }).then(res => {
         Indicator.close();
         // console.log(JSON.parse(res.data))
-        let getData = JSON.parse(res.data);
-        let dataList = getData.DataList;
+        // let getData = JSON.parse(res.data);
+        let dataList = res.DataList;
 
         let conArr = [];
         dataList.forEach(item => {

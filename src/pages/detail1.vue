@@ -73,7 +73,7 @@ export default {
         // console.log(' jjjjjjj ')
         let obj = {}
         try {
-            console.log(JSON.parse(this.$route.params.string))
+            // console.log(JSON.parse(this.$route.params.string))
             obj = JSON.parse(this.$route.params.string);
             this.obj = obj;
         } catch (e) {
@@ -82,7 +82,6 @@ export default {
         }
 
         let data = {
-            weiXinCode: 'gh_6297f82da259',
             searchWords: this.obj.keywords,
             brandID: this.obj.BrandID,
             vehicleID: this.obj.VehicleID,
@@ -93,12 +92,10 @@ export default {
         }
         this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
             Indicator.close();
-            console.log(" iiiiiiiiiiiiii ")
-            console.log(JSON.parse(res.data).DataList)
-            let getData = JSON.parse(res.data);
+            // console.log(" iiiiiiiiiiiiii ")
             try {
-                if (getData.DataList.length > 0) {
-                    this.dom = getData.DataList;
+                if (res.DataList.length > 0) {
+                    this.dom = res.DataList;
                 } else {
                     this.nothing();
                 }
@@ -111,12 +108,11 @@ export default {
     },
     methods: {
         loadMore() {
-            console.log(" ddd ")
+            // console.log(" ddd ")
             this.loading = true;
 
             this.pageIndex++;
             let data = {
-                weiXinCode: 'gh_6297f82da259',
                 searchWords: this.obj.keywords,
                 brandID: this.obj.BrandID,
                 vehicleID: this.obj.VehicleID,
@@ -128,11 +124,11 @@ export default {
             this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
                 // Indicator.close();
                 // console.log(" iiiiiiiiiiiiii ")
-                console.log(JSON.parse(res.data).DataList)
-                let DataList = JSON.parse(res.data).DataList;
-                this.dom = this.dom.concat(DataList);
+                // console.log(JSON.parse(res.data).DataList)
+                // let DataList = JSON.parse(res.data).DataList;
+                this.dom = this.dom.concat(res.DataList);
                 this.loading = false;
-                this.noMore = DataList.length === 0 ? true : false;
+                this.noMore = res.DataList.length === 0 ? true : false;
 
             }, res => {
                 // error callback

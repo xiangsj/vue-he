@@ -9,14 +9,14 @@ export default {
     name: 'home',
     data() {
         return {
-           
+
         }
     },
     created() {
-        
+
     },
     methods: {
-       
+
     }
 }
 </script>

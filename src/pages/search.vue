@@ -58,16 +58,16 @@ export default {
         }
         this.mSortNo = this.$route.params.id;
         this.getNavs();
-        console.log(this.mSortNo)
+        // console.log(this.mSortNo)
     },
     methods: {
         getNavs() {
-            this.$http.get('/api/DesignField/gh_6297f82da259').then(res => {
+            this.$http.get('/api/DesignField', {params:{}}).then(res => {
                 Indicator.close();
                 // console.log(" 自定义导航 ")
                 // console.log(JSON.parse(res.data))
-                let getData = JSON.parse(res.data);
-                this.tabsMore = getData.DataList;
+                // let getData = JSON.parse(res.data);
+                this.tabsMore = res.DataList;
             }, res => {
                 // error callback
             });

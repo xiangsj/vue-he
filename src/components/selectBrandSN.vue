@@ -9,11 +9,8 @@
 
     <ul class="scrollList">
       <li v-for="(item,index) in navs" :key="index" @click="sendBrandTree(item)">
-        {{ item.JP }} -
-        {{ item.ProdFac }} -
-        {{ item.BSX }} -
-        {{ item.StyleBrief }}
-        </li>
+        {{ item.JP }} - {{ item.ProdFac }} - {{ item.BSX }} - {{ item.StyleBrief }}
+      </li>
     </ul>
 
   </div>
@@ -26,7 +23,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      name:'',
+      name: '',
       navs: []
     }
   },
@@ -38,7 +35,7 @@ export default {
       this.$emit("updata", item)
       console.log(item.StyleID)
     },
-    open(item,brand) {
+    open(item, brand) {
       Indicator.open();
       this.isOpen = true;
       // console.log(item)
@@ -46,19 +43,19 @@ export default {
       this.name = brand.BrandName + ' - ' + item.VehicleName;
     },
     getBrand(item) {
-      let url = '/api/Style/gh_6297f82da259/'+item.BrandID+'/'+item.VehicleID;
-
-      this.$http.get(url).then(res => {
+      this.$http.get('/api/Style', {
+        params: {
+          brandID: item.BrandID,
+          vehicleID: item.VehicleID
+        }
+      }).then(res => {
         Indicator.close();
-        // console.log(JSON.parse(res.data))
-        let getData = JSON.parse(res.data);
-        let dataList = getData.DataList;
+        let dataList = res.DataList;
         this.navs = dataList;
       }, res => {
         // error callback
       });
     }
-
   }
 }
 </script>

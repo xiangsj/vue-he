@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { getCookie, setCookie } from "@/libs/utils.js";
 export default {
   name: 'HelloWorld',
   data() {
@@ -20,14 +21,44 @@ export default {
       msg: 'HelloWorld'
     }
   },
+  created(){
+    // this.set("aa","123","20")
+    // this.Cookies.remove('aa');
+    // Cookies.remove('aa')
+    // Cookies.set('name', 'value', { path: '' });
+    setCookie("userName", "bb");
+  },
   methods: {
+    set: function(name, value, days) {
+
+      var d = new Date;
+
+      d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+
+      window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+
+    },
+
+    get: function(name) {
+
+      var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+
+      return v ? v[2] : null;
+
+    },
+
+    delete: function(name) {
+
+      this.set(name, '', -1);
+
+    },
     handleClick: function() {
       this.$toast('Hello world!')
     },
     apiGet() {
-      this.$http.get('/api/ProdSort/gh_6297f82da259').then(res => {
-        console.log(JSON.parse(res.data))
-        // this.msg = res.data.msg;
+      this.$http.get('/api/ProdSort', { params: {} }).then(res => {
+        // console.log(JSON.parse(res.data))
+        // this.msg = res.msg;
         // success callback
       }, res => {
         // error callback

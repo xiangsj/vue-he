@@ -35,7 +35,7 @@ export default {
     sendBrandTree(item) {
       this.isOpen = false;
       this.$emit("updata", item);
-      console.log(item.VehicleID)
+      // console.log(item.VehicleID)
     },
     open(item) {
       Indicator.open();
@@ -45,38 +45,11 @@ export default {
     },
     getBrand(item) {
       if(!item.BrandID){return;}
-      this.$http.get('/api/Vehicle/gh_6297f82da259/' + item.BrandID).then(res => {
+      this.$http.get('/api/Vehicle', {params:{brandID:item.BrandID}}).then(res => {
         Indicator.close();
         // console.log(JSON.parse(res.data))
-        let getData = JSON.parse(res.data);
-        let dataList = getData.DataList;
+        let dataList = res.DataList;
         this.navs = dataList;
-        // let conArr = [];
-        // dataList.forEach(item => {
-        //   if (conArr.indexOf(item.FirstChar) === -1) {
-        //     conArr.push(item.FirstChar);
-        //   }
-        // });
-        // // console.log(conArr)
-
-        // let newData = [];
-        // conArr.forEach(item => {
-        //   let list = [];
-        //   dataList.forEach(item2 => {
-        //     if (item == item2.FirstChar) {
-        //       list.push(item2);
-        //     }
-        //   })
-        //   newData.push({
-        //     initials: item,
-        //     list: list
-        //   });
-        // })
-        // console.log(newData)
-
-        // this.navs = newData;
-
-        // Indicator.close();
       }, res => {
         // error callback
       });

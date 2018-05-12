@@ -19,20 +19,6 @@
                 </tr>
             </table>
 
-            <!-- <table class="noBorder" style="margin-top:20px;">
-                <tr v-for="(item,index) in dom" :key="index">
-                    <td width=100>
-                        <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage">
-                        <div v-else class="text-center">暂无图片</div>
-                    </td>
-                    <td>
-                        {{item.Brand}}<br>
-                        {{item.Item_C_Name}}<br>
-                        {{item.Item_C_Spec}}
-                    </td>
-                </tr>
-            </table> -->
-
             <table class="detailOnly" style="margin-top:10px;" v-for="(item,index) in dom" :key="index">
                 <caption>
                     <span v-if="item.MainPath">
@@ -102,7 +88,7 @@ export default {
         // console.log(' jjjjjjj ')
         let obj = {}
         try {
-            console.log(JSON.parse(this.$route.params.string))
+            // console.log(JSON.parse(this.$route.params.string))
             obj = JSON.parse(this.$route.params.string);
             this.obj = obj;
         } catch (e) {
@@ -116,12 +102,12 @@ export default {
         }
         this.$http.get('/api/ProductDetail', { params: data }).then(res => {
             Indicator.close();
-            console.log(" iiiiiiiiiiiiii ")
-            console.log(JSON.parse(res.data).DataList)
-            let getData = JSON.parse(res.data);
+            // console.log(" iiiiiiiiiiiiii ")
+            // console.log(JSON.parse(res.data).DataList)
+            // let getData = JSON.parse(res.data);
             try {
-                if (getData.DataList.length > 0) {
-                    this.dom = getData.DataList;
+                if (res.DataList.length > 0) {
+                    this.dom = res.DataList;
                 } else {
                     this.nothing();
                 }

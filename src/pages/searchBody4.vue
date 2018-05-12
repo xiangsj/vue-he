@@ -16,9 +16,9 @@ import { Toast } from 'mint-ui';
 export default {
     name: 'searchBody2',
     props: {
-        itemData:{
-            type:Object,
-            default:function(){
+        itemData: {
+            type: Object,
+            default: function() {
                 return {}
             }
         },
@@ -35,11 +35,11 @@ export default {
         }
     },
     created() {
-        console.log(this.itemData)
+        // console.log(this.itemData)
     },
     methods: {
-        submit(){
-            if(this.inputValue === ''){
+        submit() {
+            if (this.inputValue === '') {
                 Toast(this.placeholder);
                 return;
             }
@@ -48,11 +48,11 @@ export default {
                 mSortNo: this.mSortNo,
                 designFieldId: this.itemData.FID
             }
-            let url = '/home/detail4/' + 
-            JSON.stringify(data);
-            this.$router.push(url);            
+            let url = '/home/detail4/' +
+                JSON.stringify(data);
+            this.$router.push(url);
         },
-        clear(){
+        clear() {
             this.inputValue = '';
             Toast('已清空');
         }
