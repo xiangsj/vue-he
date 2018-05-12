@@ -1,10 +1,10 @@
 <template>
     <div class="index">
         <div class="text-center">
-            <!--<img class="logo" :src="logoUrl">-->
+            <img class="logo" :src="logoUrl">
             <ul class="nav">
                 <li v-for="(item,index) in homeList" :key="index" @click="goSearch(item.FID)">
-                    <!--<img :src="item.SortPath">-->
+                    <img :src="item.SortPath">
                     <div>{{item.SortName}}</div>
                 </li>
             </ul>
@@ -47,7 +47,8 @@ export default {
                     this.getMenu();
                     this.getLogin();
                 } else {
-                    if (!res.CanAnonymous) {
+                    // console.log(res.DataList[0].CanAnonymous)
+                    if (!res.DataList[0].CanAnonymous) {
                                     this.$router.push('/login')
 
                     } else {
