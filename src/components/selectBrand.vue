@@ -34,21 +34,16 @@ export default {
     sendBrand(item) {
       this.isOpen = false;
       this.$emit("updata", item)
-      console.log(item.BrandID)
+      // console.log(item.BrandID)
     },
     open() {
       Indicator.open();
-      // console.log(" kkk ")
       this.isOpen = true;
       this.getBrand();
     },
     getBrand() {
       this.$http.get('/api/Brand', { params: {} }).then(res => {
-        Indicator.close();
-        // console.log(JSON.parse(res.data))
-        // let getData = JSON.parse(res.data);
         let dataList = res.DataList;
-
         let conArr = [];
         dataList.forEach(item => {
           if (conArr.indexOf(item.FirstChar) === -1) {
@@ -70,11 +65,10 @@ export default {
             list: list
           });
         })
-        console.log(newData)
-
+        // console.log(newData)
         this.navs = newData;
 
-        // Indicator.close();
+        Indicator.close();
       }, res => {
         // error callback
       });

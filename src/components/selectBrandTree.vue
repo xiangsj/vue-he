@@ -46,10 +46,10 @@ export default {
     getBrand(item) {
       if(!item.BrandID){return;}
       this.$http.get('/api/Vehicle', {params:{brandID:item.BrandID}}).then(res => {
-        Indicator.close();
         // console.log(JSON.parse(res.data))
         let dataList = res.DataList;
         this.navs = dataList;
+        Indicator.close();
       }, res => {
         // error callback
       });

@@ -2,8 +2,8 @@
     <div class="login">
         <mt-header title="用户登录">
             <!-- <router-link to="" slot="left">
-                        <mt-button icon="back">返回</mt-button>
-                    </router-link> -->
+                            <mt-button icon="back">返回</mt-button>
+                        </router-link> -->
         </mt-header>
 
         <div style="margin:12px 0 20px;">

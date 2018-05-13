@@ -50,15 +50,15 @@ export const clearCookie = function () {
 /**
  * 动态设置单页 title
  */
-export const setTitle = function(t){
+export const setTitle = function (t) {
     document.title = t;
     var i = document.createElement('iframe');
     // i.src = '//m.baidu.com/favicon.ico';
     i.style.display = 'none';
-    i.onload = function() {
-        setTimeout(function() {
+    i.onload = function () {
+        setTimeout(function () {
             i.remove();
-        }, 9)
+        }, 5)
     }
     document.body.appendChild(i);
 }
