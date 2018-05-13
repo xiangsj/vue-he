@@ -1,7 +1,7 @@
 <template>
     <div class="detail">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
             <table class="hasBorder">
@@ -19,8 +19,7 @@
                 </tr>
             </table>
 
-            <table class="noBorder" style="margin-top:10px;" 
-            v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="5">
+            <table class="noBorder" style="margin-top:10px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="5">
                 <tr v-for="(item,index) in dom" :key="index" @click="openDetail(item)">
                     <td width=100>
                         <!-- <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage"> -->
@@ -34,13 +33,13 @@
                     </td>
                 </tr>
                 <!-- <ul>
-                            <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ index }}</li>
-                        </ul> -->
+                                <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ index }}</li>
+                            </ul> -->
                 <!-- <tfoot v-if="loading">
-                        <tr>
-                            <td align="center">努力加载中...</td>
-                        </tr>
-                    </tfoot> -->
+                            <tr>
+                                <td align="center">努力加载中...</td>
+                            </tr>
+                        </tfoot> -->
             </table>
 
             <div class="getMore text-center" v-if="loading">
@@ -52,6 +51,7 @@
 </template>
 
 <script>
+import { getCookie } from "@/libs/utils.js";
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {
@@ -107,6 +107,9 @@ export default {
         });
     },
     methods: {
+        getLogoUrl() {
+            return getCookie("logoUrl");
+        },
         loadMore() {
             // console.log(" ddd ")
             this.loading = true;

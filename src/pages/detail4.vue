@@ -1,7 +1,7 @@
 <template>
     <div class="detail">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
             <table class="hasBorder">
@@ -18,21 +18,20 @@
                     <td>{{obj.BSX}}</td>
                 </tr>
             </table>
-            
+
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-            <table class="noBorder" style="margin-top:20px;">
-                <tr v-for="(item,index) in dom" :key="index">
-                    <td width=100>
-                        <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage">
-                        <div v-else class="text-center">暂无图片</div>
-                    </td>
-                    <td>
-                        {{item.Brand}}<br>
-                        {{item.Item_C_Name}}<br>
-                        {{item.Item_C_Spec}}
-                    </td>
-                </tr>
-            </table>
+                <table class="noBorder" style="margin-top:20px;">
+                    <tr v-for="(item,index) in dom" :key="index">
+                        <td width=100>
+                            <img v-if="item.MainImage && item.MainImage !== ''" src="item.MainImage">
+                            <div v-else class="text-center">暂无图片</div>
+                        </td>
+                        <td>
+                            {{item.Brand}}<br> {{item.Item_C_Name}}
+                            <br> {{item.Item_C_Spec}}
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="getMore text-center" v-if="loading">
                 <span>努力加载中...</span>
@@ -46,6 +45,8 @@
 </template>
 
 <script>
+import { getCookie } from "@/libs/utils.js";
+
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {
@@ -55,13 +56,13 @@ export default {
             loading: false,
             noMore: false,
             obj: {},
-            dom:[],
+            dom: [],
             pageIndex: 1,
             pageSize: 5,
         }
     },
     created() {
-        
+
         let obj = {}
         try {
             // console.log(JSON.parse(this.$route.params.string))
@@ -77,7 +78,7 @@ export default {
             inputValue: this.obj.inputValue,
             mSortNo: this.obj.mSortNo,
             pageIndex: this.pageIndex,
-             pageSize: this.pageSize
+            pageSize: this.pageSize
         }
         this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
             Indicator.close();
@@ -98,6 +99,9 @@ export default {
         });
     },
     methods: {
+        getLogoUrl() {
+            return getCookie("logoUrl");
+        },
         loadMore() {
             // console.log(" ddd ")
             this.loading = true;
@@ -112,14 +116,14 @@ export default {
             }
             this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
                 // console.log(JSON.parse(res.data).DataList)
-                    // let DataList = JSON.parse(res.data).DataList;
-                    this.dom = this.dom.concat(res.DataList);
-                    this.loading = false;
-                    this.noMore = res.DataList.length === 0 ? true : false;
+                // let DataList = JSON.parse(res.data).DataList;
+                this.dom = this.dom.concat(res.DataList);
+                this.loading = false;
+                this.noMore = res.DataList.length === 0 ? true : false;
             }, res => {
                 // error callback
             });
-            
+
             // let strArr = this.$route.params.string.split('&&');
             // let data = {
             //     weiXinCode: 'gh_6297f82da259',
@@ -138,7 +142,7 @@ export default {
             // }, res => {
             //     // error callback
             // });
-            
+
         },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {

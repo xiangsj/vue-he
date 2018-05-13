@@ -1,25 +1,29 @@
 <template>
     <div class="index">
-        <div class="text-center">
-            <img class="logo" :src="logoUrl">
-            <ul class="nav">
-                <li v-for="(item,index) in homeList" :key="index" @click="goSearch(item.FID)">
-                    <img :src="item.SortPath">
-                    <div>{{item.SortName}}</div>
-                </li>
-            </ul>
-            <div class="footer">{{company}}</div>
-        </div>
-        <router-view></router-view>
+        <template v-if="!isLogin">
+            <div class="text-center">
+                <img class="logo" :src="logoUrl">
+                <ul class="nav">
+                    <li v-for="(item,index) in homeList" :key="index" @click="goSearch(item.FID)">
+                        <img :src="item.SortPath">
+                        <div>{{item.SortName}}</div>
+                    </li>
+                </ul>
+                <div class="footer">{{company}}</div>
+            </div>
+            <router-view></router-view>
+        </template>
+        <login v-else @loginSuccess="getData"></login>
     </div>
 </template>
 
 <script>
-import { getCookie, setCookie } from "@/libs/utils.js";
+import { getCookie, setCookie, clearCookie, setTitle } from "@/libs/utils.js";
 
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 
+import login from './login'
 export default {
     name: 'index',
     data() {
@@ -27,31 +31,41 @@ export default {
             homeList: [],
             logoUrl: '',
             company: '',
+            isLogin: false
         }
     },
     created() {
-        // console.log(this.$route.query);
-        let urlPar = this.$route.query;
-        setCookie("code", urlPar.weiXinCode);
-
+        clearCookie();
         Indicator.open();
-
         this.isPower();
     },
     methods: {
+        getData() {
+            // console.log("jjj ")
+            this.getMenu();
+            this.getLogin();
+            this.isLogin = false;
+        },
         isPower() {
-            this.$http.get('/api/Login', { params: {} }).then(res => {
+            let weiXinCode = this.$route.query.weiXinCode;
+            this.$http.get('/api/Login', { params: { weiXinCode: weiXinCode } }).then(res => {
                 Indicator.close();
-                console.log(res)
+                /**
+                 * 1.全部开放
+                 * 2.没开放，要登录 (CanAnonymous 为 false 时要登录)
+                 * 3.没开放，禁止
+                */
                 if (res.status == "S") {
+                    setCookie("code", weiXinCode);
                     this.getMenu();
                     this.getLogin();
                 } else {
-                    // console.log(res.DataList[0].CanAnonymous)
                     if (!res.DataList[0].CanAnonymous) {
-                                    this.$router.push('/login')
-
+                        // 没开放，要登录
+                        this.isLogin = true;
+                        setCookie("code", weiXinCode);
                     } else {
+                        // 没开放，禁止
                         MessageBox.alert(res.message).then(action => {
                             this.$router.go(-1);
                         });
@@ -78,11 +92,16 @@ export default {
             this.$http.get('/api/CustomerList', { params: {} }).then(res => {
                 this.logoUrl = res.DataList[0].LogoPath;
                 this.company = res.DataList[0].CustName;
+                setCookie("logoUrl", this.logoUrl);
+                setCookie("company", this.company);
+                setTitle(this.company);
             }, res => {
                 // error callback
             });
         }
-
+    },
+    components: {
+        'login': login
     }
 }
 </script>

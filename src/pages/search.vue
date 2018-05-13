@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" :src="getLogoUrl()">
         </div>
         <mt-navbar class="navbar" v-model="selected">
             <mt-tab-item id="1">车型</mt-tab-item>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { getCookie } from "@/libs/utils.js";
+
 import searchBody1 from './searchBody1'
 import searchBody2 from './searchBody2'
 import searchBody3 from './searchBody3'
@@ -57,16 +59,17 @@ export default {
             return;
         }
         this.mSortNo = this.$route.params.id;
-        this.getNavs();
+        this.getTabs();
         // console.log(this.mSortNo)
     },
     methods: {
-        getNavs() {
+        getLogoUrl(){
+            return getCookie("logoUrl");
+        },
+        getTabs() {
             this.$http.get('/api/DesignField', {params:{}}).then(res => {
                 Indicator.close();
                 // console.log(" 自定义导航 ")
-                // console.log(JSON.parse(res.data))
-                // let getData = JSON.parse(res.data);
                 this.tabsMore = res.DataList;
             }, res => {
                 // error callback

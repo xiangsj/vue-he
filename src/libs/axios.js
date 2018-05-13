@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 Vue.prototype.$http = axios
+// import router from '../router/index'
+import { MessageBox } from 'mint-ui';
 
 //http request 封装请求头拦截器
 //http://www.php.cn/js-tutorial-394773.html
@@ -9,14 +11,23 @@ import { getCookie } from "@/libs/utils.js";
 axios.interceptors.request.use(config => {
   // console.log("request")
   // console.log(config)
-
-  //请求方式
-  let method = config.method.toLowerCase();
-  if (method === 'get' || method === 'delete') {
-    
-    Object.assign(config.params, {
-      "weiXinCode": getCookie("code")
-    });
+  //没有 cookie 跳转到初始页
+  
+  //排除此接口，其他自动加上 cookie
+  if (config.url !== "/api/Login") {
+    let code = getCookie("code");
+    if(!code) {
+      // console.log(" )))))))))))00 ");
+      MessageBox('未授权', '请授权后重新打开此页');
+      // router.push("/home/index" + code);
+    }
+    //请求方式
+    let method = config.method.toLowerCase();
+    if (method === 'get' || method === 'delete') {
+      Object.assign(config.params, {
+        "weiXinCode": code
+      });
+    }
   }
   return config;
 }, error => {

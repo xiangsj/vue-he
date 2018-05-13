@@ -1,7 +1,7 @@
 <template>
     <div class="detail">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
             <table class="hasBorder">
@@ -29,42 +29,44 @@
                     </span>
                 </caption>
                 <tbody>
-                <tr>
-                    <td style="width:100px;">产品名称</td>
-                    <td>{{item.Brand}} {{item.Item_C_Name}}</td>
-                </tr>
-                <tr>
-                    <td>主机编号</td>
-                    <td>{{item.EngineNo}}</td>
-                </tr>                
-                <tr>
-                    <td>厂家供货编号</td>
-                    <td>{{item.ProvItemNo}}</td>
-                </tr>
-                <tr>
-                    <td>配件规格</td>
-                    <td>{{item.Item_C_Spec}}</td>
-                </tr>
-                <tr>
-                    <td>单车用量</td>
-                    <td>{{item.CarQty}}</td>
-                </tr>
-                <tr>
-                    <td>单箱数量</td>
-                    <td>{{item.BoxQty}}</td>
-                </tr>
-                <tr>
-                    <td>可替换产品</td>
-                    <td>{{item.ProdItemReplace}}</td>
-                </tr>
-                <tr>
-                    <td>单位</td>
-                    <td>{{item.Unit}}</td>
-                </tr>
-                <tr>
-                    <td>ZhujiNo</td>
-                    <td><div style="max-width:200px;">{{item.ZhujiNo}}</div></td>
-                </tr>
+                    <tr>
+                        <td style="width:100px;">产品名称</td>
+                        <td>{{item.Brand}} {{item.Item_C_Name}}</td>
+                    </tr>
+                    <tr>
+                        <td>主机编号</td>
+                        <td>{{item.EngineNo}}</td>
+                    </tr>
+                    <tr>
+                        <td>厂家供货编号</td>
+                        <td>{{item.ProvItemNo}}</td>
+                    </tr>
+                    <tr>
+                        <td>配件规格</td>
+                        <td>{{item.Item_C_Spec}}</td>
+                    </tr>
+                    <tr>
+                        <td>单车用量</td>
+                        <td>{{item.CarQty}}</td>
+                    </tr>
+                    <tr>
+                        <td>单箱数量</td>
+                        <td>{{item.BoxQty}}</td>
+                    </tr>
+                    <tr>
+                        <td>可替换产品</td>
+                        <td>{{item.ProdItemReplace}}</td>
+                    </tr>
+                    <tr>
+                        <td>单位</td>
+                        <td>{{item.Unit}}</td>
+                    </tr>
+                    <tr>
+                        <td>ZhujiNo</td>
+                        <td>
+                            <div style="max-width:200px;">{{item.ZhujiNo}}</div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -73,6 +75,7 @@
 </template>
 
 <script>
+import { getCookie } from "@/libs/utils.js";
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {
@@ -119,6 +122,9 @@ export default {
         });
     },
     methods: {
+        getLogoUrl() {
+            return getCookie("logoUrl");
+        },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
                 this.$router.go(-1);

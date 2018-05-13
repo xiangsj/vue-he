@@ -1,7 +1,7 @@
 <template>
     <div class="detail">
         <div class="text-center">
-            <img class="logo" src="http://120.27.163.36:5568/downloadImages/gh_6297f82da259/201805/LogoImage/gh_6297f82da259.jpg">
+            <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
             <div>
@@ -61,8 +61,8 @@
             </div>
 
             <!-- <ul >
-                    <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ item }}</li>
-                </ul> -->
+                        <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ item }}</li>
+                    </ul> -->
             <div class="getMore text-center" v-if="loading">
                 <span>努力加载中...</span>
                 <div class="noMore" v-if="noMore">没有更多了</div>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import { getCookie } from "@/libs/utils.js";
+
 import { MessageBox } from 'mint-ui';
 import { Indicator } from 'mint-ui';
 export default {
@@ -122,6 +124,9 @@ export default {
         });
     },
     methods: {
+        getLogoUrl() {
+            return getCookie("logoUrl");
+        },
         loadMore() {
             // console.log(" ddd ")
             this.loading = true;
