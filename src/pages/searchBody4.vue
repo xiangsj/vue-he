@@ -40,7 +40,7 @@ export default {
     methods: {
         submit() {
             if (this.inputValue === '') {
-                Toast(this.placeholder);
+                Toast('请输入'+this.itemData.ShowCaption);
                 return;
             }
             let data = {

@@ -4,7 +4,7 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <table class="hasBorder">
+            <table class="hasBorder" style="margin-top:5px;">
                 <tr>
                     <td width=100>品牌</td>
                     <td>{{obj.BrandName}}</td>
@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>车系</td>
-                    <td>{{obj.BSX}}</td>
+                    <td>{{obj.StyleName}}</td>
                 </tr>
             </table>
 
@@ -32,14 +32,6 @@
                         <div>{{item.Item_C_Spec}}</div>
                     </td>
                 </tr>
-                <!-- <ul>
-                                <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ index }}</li>
-                            </ul> -->
-                <!-- <tfoot v-if="loading">
-                            <tr>
-                                <td align="center">努力加载中...</td>
-                            </tr>
-                        </tfoot> -->
             </table>
 
             <div class="getMore text-center" v-if="loading">
@@ -64,8 +56,6 @@ export default {
             dom: [],
             pageIndex: 1,
             pageSize: 5,
-            // list: [1, 2, 2, 2, 2, 2],
-
         }
     },
     created() {
@@ -148,10 +138,9 @@ export default {
                 FID: item.FID,
                 BrandName: this.obj.BrandName,
                 VehicleName: this.obj.VehicleName,
-                BSX: this.obj.BSX,
+                StyleName: this.obj.StyleName,
             }
-            let url = '/home/detail1_1/' +
-                JSON.stringify(data);
+            let url = '/home/detail1_1/' + JSON.stringify(data);
             this.$router.push(url)
         }
     }

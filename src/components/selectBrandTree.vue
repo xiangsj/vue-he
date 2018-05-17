@@ -10,7 +10,7 @@
     <mt-index-list>
       <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
         <div v-for="(item2,index2) in item.list" :key="index2" @click="sendBrand(item2)">
-          <mt-cell :title="item2.BrandName"></mt-cell>
+          <mt-cell :title="item2.VehicleName"></mt-cell>
         </div>
       </mt-index-section>
     </mt-index-list>
@@ -25,7 +25,7 @@ export default {
     return {
       isOpen: false,
       navs: [],
-      BrandName:'',
+      BrandName: '',
     }
   },
   created() {
@@ -37,19 +37,16 @@ export default {
       this.$emit("updata", item)
       // console.log(item.BrandID)
     },
-    // open() {
-    //   Indicator.open();
-    //   this.isOpen = true;
-    //   this.getBrand();
-    // },
     open(item) {
       Indicator.open();
       this.isOpen = true;
       this.getBrand(item);
       this.BrandName = item.BrandName;
     },
-    getBrand() {
-      this.$http.get('/api/Brand', { params: {} }).then(res => {
+    getBrand(item) {
+      if (!item.BrandID) { return; }
+      this.$http.get('/api/Vehicle', { params: { brandID: item.BrandID } }).then(res => {
+        // console.log(res)
         let dataList = res.DataList;
         let conArr = [];
         dataList.forEach(item => {

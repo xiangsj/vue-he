@@ -29,8 +29,8 @@ export default {
     name: 'home',
     data() {
         return {
-            username: 'admin',
-            pwd: '123456'
+            username: '',
+            pwd: ''
         }
     },
     created() {

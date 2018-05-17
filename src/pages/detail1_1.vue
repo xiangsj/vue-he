@@ -6,7 +6,7 @@
         <div class="tableWrap">
             <table class="hasBorder">
                 <tr>
-                    <td width=100>品牌</td>
+                    <td width=77>品牌</td>
                     <td>{{obj.BrandName}}</td>
                 </tr>
                 <tr>
@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>车系</td>
-                    <td>{{obj.BSX}}</td>
+                    <td>{{obj.StyleName}}</td>
                 </tr>
             </table>
 
@@ -24,48 +24,51 @@
                     <span v-if="item.MainPath">
                         <img :src="item.MainPath">
                     </span>
+                    <span v-else class="noPic">暂无主图</span>                    
+
                     <span v-if="item.SubPath">
                         <img :src="item.SubPath">
                     </span>
+                    <span v-else class="noPic">暂无辅图</span>                    
                 </caption>
+
                 <tbody>
                     <tr>
-                        <td style="width:100px;">产品名称</td>
-                        <td>{{item.Brand}} {{item.Item_C_Name}}</td>
+                        <td style="width:88px;">产品名称</td>
+                        <td>{{item.Item_C_Name}}</td>
                     </tr>
                     <tr>
-                        <td>主机编号</td>
-                        <td>{{item.EngineNo}}</td>
-                    </tr>
-                    <tr>
-                        <td>厂家供货编号</td>
+                        <td>厂家编号</td>
                         <td>{{item.ProvItemNo}}</td>
                     </tr>
                     <tr>
-                        <td>配件规格</td>
+                        <td>规格型号</td>
                         <td>{{item.Item_C_Spec}}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>每箱数量</td>
+                        <td>{{item.BoxQty}}</td>
                     </tr>
                     <tr>
                         <td>单车用量</td>
                         <td>{{item.CarQty}}</td>
                     </tr>
+                    <!-- <tr>
+                        <td>单位</td>
+                        <td>{{item.Unit}}</td>
+                    </tr> -->
                     <tr>
-                        <td>单箱数量</td>
-                        <td>{{item.BoxQty}}</td>
-                    </tr>
-                    <tr>
-                        <td>可替换产品</td>
+                        <td>替代品牌</td>
                         <td>{{item.ProdItemReplace}}</td>
                     </tr>
                     <tr>
-                        <td>单位</td>
-                        <td>{{item.Unit}}</td>
+                        <td>主机编号</td>
+                        <td>{{item.ZhujiNo}}</td>
                     </tr>
                     <tr>
-                        <td>ZhujiNo</td>
-                        <td>
-                            <div style="max-width:200px;">{{item.ZhujiNo}}</div>
-                        </td>
+                        <td>适用车型</td>
+                        <td><div style="max-width:200px;">{{item.CanUseStyle}}</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -87,41 +90,38 @@ export default {
         }
     },
     created() {
-        Indicator.open();
-        // console.log(' jjjjjjj ')
-        let obj = {}
-        try {
-            // console.log(JSON.parse(this.$route.params.string))
-            obj = JSON.parse(this.$route.params.string);
-            this.obj = obj;
-        } catch (e) {
-            this.nothing();
-            return;
-        }
-
-        let data = {
-            weiXinCode: 'gh_6297f82da259',
-            fid: obj.FID
-        }
-        this.$http.get('/api/ProductDetail', { params: data }).then(res => {
-            Indicator.close();
-            // console.log(" iiiiiiiiiiiiii ")
-            // console.log(JSON.parse(res.data).DataList)
-            // let getData = JSON.parse(res.data);
-            try {
-                if (res.DataList.length > 0) {
-                    this.dom = res.DataList;
-                } else {
-                    this.nothing();
-                }
-            } catch (e) {
-                this.nothing();
-            }
-        }, res => {
-            // error callback
-        });
+        this.getData();
     },
     methods: {
+        getData() {
+            Indicator.open();
+            // console.log(' jjjjjjj ')
+            let obj = {}
+            try {
+                obj = JSON.parse(this.$route.params.string);
+                this.obj = obj;
+            } catch (e) {
+                this.nothing();
+                return;
+            }
+            console.log(this.obj)
+            this.$http.get('/api/ProductDetail', { params: {fid: obj.FID} }).then(res => {
+                Indicator.close();
+                console.log(" iiiiiiiiiiiiii ")
+                console.log(res.DataList[0])
+                try {
+                    if (res.DataList.length > 0) {
+                        this.dom = res.DataList;
+                    } else {
+                        this.nothing();
+                    }
+                } catch (e) {
+                    this.nothing();
+                }
+            }, res => {
+                // error callback
+            });
+        },
         getLogoUrl() {
             return getCookie("logoUrl");
         },

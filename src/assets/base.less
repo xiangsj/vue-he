@@ -36,7 +36,7 @@ body {
         // border: 1px solid blue;
         ul.nav {
             // border: 1px solid red;
-            margin: 0 45px;
+            margin: 12px 45px;
             >li {
                 width: 25%;
                 float: left;
@@ -60,6 +60,7 @@ body {
         }
     }
     .inputRight {
+        border-bottom: 1px solid #f3f3f3;
         .mint-field-core {
             text-align: right;
             padding-right: 8px;
@@ -83,11 +84,11 @@ body {
 }
 
 img.logo {
-    border: 1px solid red;
-    display: none;
-    margin: 15px auto 15px;
+    // border: 1px solid red;
+    // display: none;
+    margin: 0 auto;
     width: 100%;
-    height: 77px;
+    height: 80px;
 }
 
 .navbar {
@@ -130,22 +131,29 @@ img.logo {
 }
 
 .tableWrap {
-    margin: 0 10px;
-    >table {
+    // border: 1px solid red;
+    margin: 10px;
+    table {
         width: 100%;
         border-spacing: 0;
         border-collapse: collapse;
+        td{
+            .maxWidth{
+                max-width: 238px;
+                // border: 1px solid red;
+            }
+        }
     }
-    >table.hasBorder {
+    table.hasBorder {
         td {
             border: 1px solid #eee;
-            padding: 8px 10px;
+            padding: 5px 10px;
             &:first-child {
                 color: #666;
             }
         }
     }
-    >table.noBorder {
+    table.noBorder {
         // border: 1px solid blue;
         tr {
             border-top: 1px solid #f9f9f9;
@@ -154,7 +162,7 @@ img.logo {
             }
         }
         td {
-            padding: 8px 10px;
+            padding: 5px 10px;
             .listPic {
                 width: 88px;
                 height: 88px;
@@ -174,7 +182,7 @@ img.logo {
             }
         }
     }
-    >table.detailOnly {
+    table.detailOnly {
         // border: 1px solid red;
         margin-bottom: 20px;
         caption {
@@ -189,10 +197,16 @@ img.logo {
                     border-radius: 4px;
                 }
             }
+            .noPic{
+                // border: 1px solid red;
+                float: left;
+                width: 50%;
+                color: #999;
+            }
         }
         tr {
             td {
-                padding: 8px 0;
+                padding: 5px 0;
                 word-wrap: break-word;
                 &:first-child {
                     color: #666;

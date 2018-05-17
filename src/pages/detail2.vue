@@ -4,65 +4,63 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <div>
-
-            </div>
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-                <table class="noBorder" style="margin-top:20px;" v-for="(item,index) in dom" :key="index">
+                <table class="detailOnly" style="margin:15px 0 30px;" v-for="(item,index) in dom" :key="index">
                     <caption>
                         <span v-if="item.MainPath">
                             <img :src="item.MainPath">
                         </span>
+                        <span v-else class="noPic">暂无主图</span>
+
                         <span v-if="item.SubPath">
                             <img :src="item.SubPath">
                         </span>
+                        <span v-else class="noPic">暂无辅图</span>
                     </caption>
+
                     <tbody>
                         <tr>
-                            <td style="width:100px;">产品名称</td>
-                            <td>{{item.Brand}} {{item.Item_C_Name}}</td>
+                            <td style="width:88px;">产品名称</td>
+                            <td>{{item.Item_C_Name}}</td>
                         </tr>
                         <tr>
-                            <td>主机编号</td>
-                            <td>{{item.EngineNo}}</td>
-                        </tr>
-                        <tr>
-                            <td>厂家供货编号</td>
+                            <td>厂家编号</td>
                             <td>{{item.ProvItemNo}}</td>
                         </tr>
                         <tr>
-                            <td>配件规格</td>
+                            <td>规格型号</td>
                             <td>{{item.Item_C_Spec}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>每箱数量</td>
+                            <td>{{item.BoxQty}}</td>
                         </tr>
                         <tr>
                             <td>单车用量</td>
                             <td>{{item.CarQty}}</td>
                         </tr>
                         <tr>
-                            <td>单箱数量</td>
-                            <td>{{item.BoxQty}}</td>
-                        </tr>
-                        <tr>
-                            <td>可替换产品</td>
-                            <td>{{item.ProdItemReplace}}</td>
-                        </tr>
-                        <tr>
-                            <td>单位</td>
-                            <td>{{item.Unit}}</td>
-                        </tr>
-                        <tr>
-                            <td>ZhujiNo</td>
+                            <td>替代品牌</td>
                             <td>
-                                <div style="max-width:200px;">{{item.ZhujiNo}}</div>
+                                <div class="maxWidth">{{item.ProdItemReplace}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主机编号</td>
+                            <td>
+                                <div class="maxWidth">{{item.ZhujiNo}}</div>
+                                </td>
+                        </tr>
+                        <tr>
+                            <td>适用车型</td>
+                            <td>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- <ul >
-                        <li v-for="(item,index) in list" :key="index" style="height:88px;">{{ item }}</li>
-                    </ul> -->
             <div class="getMore text-center" v-if="loading">
                 <span>努力加载中...</span>
                 <div class="noMore" v-if="noMore">没有更多了</div>
@@ -70,7 +68,6 @@
 
         </div>
 
-        <!-- {{dom}} -->
     </div>
 </template>
 
@@ -88,8 +85,6 @@ export default {
             dom: [],
             pageIndex: 1,
             pageSize: 5,
-            // list: [1, 2, 2, 2, 2, 2, 2, 2],
-
         }
     },
     created() {

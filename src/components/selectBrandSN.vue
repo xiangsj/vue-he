@@ -1,18 +1,19 @@
 <template>
   <div class="selectBrand" v-if="isOpen">
 
-    <mt-header :title="'选择车型（' + name + '）'">
+    <mt-header :title="'选择车系（' + name + '）'">
       <router-link to="" slot="left">
         <mt-button icon="back" @click="isOpen=false">返回</mt-button>
       </router-link>
     </mt-header>
 
-    <ul class="scrollList">
-      <li v-for="(item,index) in navs" :key="index" @click="sendBrandTree(item)">
-        {{ item.JP }} - {{ item.ProdFac }} - {{ item.BSX }} - {{ item.StyleBrief }}
-      </li>
-    </ul>
-
+    <mt-index-list>
+      <mt-index-section v-for="(item,index) in navs" :key="index" :index="item.initials">
+        <div v-for="(item2,index2) in item.list" :key="index2" @click="sendBrand(item2)">
+          <mt-cell :title="item2.StyleName"></mt-cell>
+        </div>
+      </mt-index-section>
+    </mt-index-list>
   </div>
 </template>
 
@@ -23,17 +24,20 @@ export default {
   data() {
     return {
       isOpen: false,
+      navs: [],
       name: '',
-      navs: []
     }
   },
   created() {
+
   },
   methods: {
-    sendBrandTree(item) {
+    sendBrand(item) {
       this.isOpen = false;
       this.$emit("updata", item)
-      console.log(item.StyleID)
+      console.log(item)
+      console.log(item)
+      console.log(item)
     },
     open(item, brand) {
       Indicator.open();
@@ -43,32 +47,49 @@ export default {
       this.name = brand.BrandName + ' - ' + item.VehicleName;
     },
     getBrand(item) {
+      if (!item.BrandID) { return; }
       this.$http.get('/api/Style', {
         params: {
           brandID: item.BrandID,
           vehicleID: item.VehicleID
         }
       }).then(res => {
-        Indicator.close();
+        console.log(res)
         let dataList = res.DataList;
-        this.navs = dataList;
+        let conArr = [];
+        dataList.forEach(item => {
+          if (conArr.indexOf(item.FirstChar) === -1) {
+            conArr.push(item.FirstChar);
+          }
+        });
+        // console.log(conArr)
+
+        let newData = [];
+        conArr.forEach(item => {
+          let list = [];
+          dataList.forEach(item2 => {
+            if (item == item2.FirstChar) {
+              list.push(item2);
+            }
+          })
+          newData.push({
+            initials: item,
+            list: list
+          });
+        })
+        // console.log(newData)
+        this.navs = newData;
+
+        Indicator.close();
       }, res => {
         // error callback
       });
     }
+
   }
 }
 </script>
 
 <style lang="less">
-.selectBrand {
-  // border: 1px solid red;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  background-color: #fff;
-}
+
 </style>

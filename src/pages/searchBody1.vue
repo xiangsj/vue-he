@@ -17,7 +17,7 @@
 
             <div @click="SNclick()">
                 <mt-cell title="车型" is-link value="请选择车型">
-                    <span v-if="search.SN.BSX != ''">{{search.SN.BSX}}</span>
+                    <span v-if="search.SN.StyleName != ''">{{search.SN.StyleName}}</span>
                 </mt-cell>
             </div>
 
@@ -68,7 +68,7 @@ export default {
                 },
                 SN: {
                     StyleID: '',
-                    BSX: ''
+                    StyleName: '',
                 }
             },
         }
@@ -97,7 +97,8 @@ export default {
 
         updataBrandSN(item) {
             this.search.SN = item;
-            // console.log(this.search.SN)
+            console.log("this.search.SN")
+            console.log(this.search.SN)
         },
         updataBrandTree(item) {
             this.search.tree = item;
@@ -113,18 +114,6 @@ export default {
                 Toast('请输入搜索关键字或汽车品牌');
                 return;
             }
-            // if(this.search.brand.BrandID === ''){
-            //     Toast('请选择汽车品牌');
-            //     return;
-            // }
-            // if(this.search.tree.VehicleID === ''){
-            //     Toast('请选择车系');
-            //     return;
-            // }
-            // if(this.search.SN.StyleID === ''){
-            //     Toast('请选择车型');
-            //     return;
-            // }
             let data = {
                 keywords: this.search.keywords,
                 BrandID: this.search.brand.BrandID,
@@ -134,16 +123,9 @@ export default {
 
                 BrandName: this.search.brand.BrandName,
                 VehicleName: this.search.tree.VehicleName,
-                BSX: this.search.SN.BSX,
+                StyleName: this.search.SN.StyleName,
             }
-            let url = '/home/detail1/' +
-                // this.search.keywords + '&&' +
-                // this.search.brand.BrandID + '&&' +
-                // this.search.tree.VehicleID + '&&' +
-                // this.search.SN.StyleID + '&&' +
-                // this.mSortNo +
-                JSON.stringify(data);
-            // let url = '/home/detail1/' + this.search;
+            let url = '/home/detail1/' + JSON.stringify(data);
             this.$router.push(url)
         },
         clear() {
@@ -158,7 +140,8 @@ export default {
                     VehicleName: '',
                 },
                 SN: {
-                    BSX: ''
+                    StyleID: '',
+                    StyleName: ''
                 }
             }
             Toast('已清空');
