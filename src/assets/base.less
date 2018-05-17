@@ -11,6 +11,7 @@ body {
         margin: 0;
     }
 }
+
 //重写MINT UI 样式
 .mint-indicator-wrapper {
     z-index: 999;
@@ -21,7 +22,6 @@ body {
 }
 
 #app {
-    // border: 1px solid red;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,7 +38,6 @@ body {
             // border: 1px solid red;
             margin: 0 45px;
             >li {
-                // border: 12px solid red;
                 width: 25%;
                 float: left;
                 margin-bottom: 15px;
@@ -84,10 +83,9 @@ body {
 }
 
 img.logo {
-    // border: 1px solid red;
+    border: 1px solid red;
+    display: none;
     margin: 15px auto 15px;
-    // max-width: 100px;
-
     width: 100%;
     height: 77px;
 }
@@ -108,7 +106,6 @@ img.logo {
         min-height: 260px;
         position: relative;
         .text-center {
-            // margin-top: 30px;
             position: absolute;
             left: 0;
             right: 0;
@@ -119,6 +116,17 @@ img.logo {
             }
         }
     }
+}
+
+.selectBrand {
+  // border: 1px solid red;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .tableWrap {

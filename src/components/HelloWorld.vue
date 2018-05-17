@@ -1,7 +1,7 @@
 <template>
   <div class="hello text-center">
     <h1>{{ msg }}</h1>
-    <router-link to="/home/index">Go to index</router-link>
+    <router-link to="/home/index/?weiXinCode=gh_6297f82da266">Go to index</router-link>
 
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">toast</mt-button>
@@ -22,11 +22,7 @@ export default {
     }
   },
   created(){
-    // this.set("aa","123","20")
-    // this.Cookies.remove('aa');
-    // Cookies.remove('aa')
-    // Cookies.set('name', 'value', { path: '' });
-    setCookie("userName", "bb");
+    // setCookie("userName", "bb");
   },
   methods: {
     set: function(name, value, days) {

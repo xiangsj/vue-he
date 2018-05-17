@@ -79,14 +79,5 @@ export default {
 </script>
 
 <style lang="less">
-.selectBrand {
-  // border: 1px solid red;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  background-color: #fff;
-}
+
 </style>
