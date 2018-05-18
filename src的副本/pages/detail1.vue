@@ -52,7 +52,7 @@ export default {
             obj: {},
             dom: [],
             pageIndex: 1,
-            pageSize: 8,
+            pageSize: 5,
         }
     },
     created() {
@@ -108,7 +108,9 @@ export default {
                 pageSize: this.pageSize
             }
             this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
+                // console.log(" iiiiiiiiiiiiii ")
                 let data = res.DataList;
+                // console.log(data)
                 if(data.length === 0){
                     this.loading = false;
                     return;

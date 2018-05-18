@@ -24,12 +24,12 @@
                     <span v-if="item.MainPath">
                         <img :src="item.MainPath">
                     </span>
-                    <span v-else class="noPic">暂无主图</span>
+                    <span v-else class="noPic">暂无主图</span>                    
 
                     <span v-if="item.SubPath">
                         <img :src="item.SubPath">
                     </span>
-                    <span v-else class="noPic">暂无辅图</span>
+                    <span v-else class="noPic">暂无辅图</span>                    
                 </caption>
 
                 <tbody>
@@ -45,7 +45,7 @@
                         <td>规格型号</td>
                         <td>{{item.Item_C_Spec}}</td>
                     </tr>
-
+                    
                     <tr>
                         <td>每箱数量</td>
                         <td>{{item.BoxQty}}</td>
@@ -54,17 +54,21 @@
                         <td>单车用量</td>
                         <td>{{item.CarQty}}</td>
                     </tr>
+                    <!-- <tr>
+                        <td>单位</td>
+                        <td>{{item.Unit}}</td>
+                    </tr> -->
                     <tr>
                         <td>替代品牌</td>
-                        <td>{{item.ProdItemReplace}} </td>
+                        <td>{{item.ProdItemReplace}}</td>
                     </tr>
                     <tr>
                         <td>主机编号</td>
-                        <td>{{item.ZhujiNo}} </td>
+                        <td>{{item.ZhujiNo}}</td>
                     </tr>
                     <tr>
                         <td>适用车型</td>
-                        <td>{{item.CanUseStyle}} </td>
+                        <td><div style="max-width:200px;">{{item.CanUseStyle}}</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -101,7 +105,7 @@ export default {
                 return;
             }
             console.log(this.obj)
-            this.$http.get('/api/ProductDetail', { params: { fid: obj.FID } }).then(res => {
+            this.$http.get('/api/ProductDetail', { params: {fid: obj.FID} }).then(res => {
                 Indicator.close();
                 console.log(" iiiiiiiiiiiiii ")
                 console.log(res.DataList[0])

@@ -4,7 +4,7 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
                 <table class="detailOnly" style="margin:15px 0 30px;" v-for="(item,index) in dom" :key="index">
                     <caption>
                         <span v-if="item.MainPath">
@@ -42,43 +42,57 @@
                         </tr>
                         <tr>
                             <td>替代品牌</td>
-                            <td>{{item.ProdItemReplace}} </td>
+                            <td>
+                                <div class="maxWidth">{{item.ProdItemReplace}}</div>
+                            </td>
                         </tr>
                         <tr>
                             <td>主机编号</td>
-                            <td>{{item.ZhujiNo}} </td>
+                            <td>
+                                <div class="maxWidth">{{item.ZhujiNo}}</div>
+                            </td>
                         </tr>
                         <tr>
                             <td>适用车型</td>
-                            <td>{{item.CanUseStyle}} </td>
+                            <td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="getMore text-center">
-                <span v-if="loading">努力加载中...</span>
-                <span v-else>没有更多了</span>
+            <div class="getMore text-center" v-if="loading">
+                <span>努力加载中...</span>
+                <div class="noMore" v-if="noMore">没有更多了</div>
             </div>
+
         </div>
+
     </div>
 </template>
 
 <script>
 import { getCookie } from "@/libs/utils.js";
+
 import { MessageBox } from 'mint-ui';
+import { Indicator } from 'mint-ui';
 export default {
     name: 'detail',
     data() {
         return {
-            loading: true,
+            loading: false,
+            noMore: false,
             dom: [],
             pageIndex: 1,
             pageSize: 5,
         }
     },
     created() {
+        Indicator.open();
         let strArr = this.$route.params.string.split('&&');
+        // console.log(' jjjjjjj ')
+        // console.log(strArr)
+
         let data = {
             inputValue: strArr[0],
             mSortNo: strArr[1],
@@ -86,6 +100,11 @@ export default {
             pageSize: this.pageSize
         }
         this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
+            Indicator.close();
+
+            // console.log(" ^^^^ ")
+            // console.log(JSON.parse(res.data).DataList)
+            // let getData = JSON.parse(res.data);
             try {
                 if (res.DataList.length > 0) {
                     this.dom = res.DataList;
@@ -104,7 +123,9 @@ export default {
             return getCookie("logoUrl");
         },
         loadMore() {
-            if (!this.loading) { return; }
+            // console.log(" ddd ")
+            this.loading = true;
+
             this.pageIndex++;
             let strArr = this.$route.params.string.split('&&');
             let data = {
@@ -114,12 +135,11 @@ export default {
                 pageSize: this.pageSize
             }
             this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
-                let data = res.DataList;
-                if (data.length === 0) {
-                    this.loading = false;
-                    return;
-                }
-                this.dom = this.dom.concat(data);
+                // console.log(JSON.parse(res.data).DataList)
+                let DataList = res.DataList;
+                this.dom = this.dom.concat(DataList);
+                this.loading = false;
+                this.noMore = DataList.length === 0 ? true : false;
             }, res => {
                 // error callback
             });

@@ -4,7 +4,7 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
                 <table class="detailOnly" style="margin:15px 0 30px;" v-for="(item,index) in dom" :key="index">
                     <caption>
                         <span v-if="item.MainPath">
@@ -42,50 +42,74 @@
                         </tr>
                         <tr>
                             <td>替代品牌</td>
-                            <td>{{item.ProdItemReplace}} </td>
+                            <td>
+                                <div class="maxWidth">{{item.ProdItemReplace}}</div>
+                            </td>
                         </tr>
                         <tr>
                             <td>主机编号</td>
-                            <td>{{item.ZhujiNo}} </td>
+                            <td>
+                                <div class="maxWidth">{{item.ZhujiNo}}</div>
+                            </td>
                         </tr>
                         <tr>
                             <td>适用车型</td>
-                            <td>{{item.CanUseStyle}} </td>
+                            <td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <div class="getMore text-center">
-                <span v-if="loading">努力加载中...</span>
-                <span v-else>没有更多了</span>
+            <div class="getMore text-center" v-if="loading">
+                <span>努力加载中...</span>
+                <div class="noMore" v-if="noMore">没有更多了</div>
             </div>
+
         </div>
+
+        <!-- {{dom}} -->
     </div>
 </template>
 
 <script>
 import { getCookie } from "@/libs/utils.js";
+import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {
     name: 'detail',
     data() {
         return {
-            loading: true,
+            loading: false,
+            noMore: false,
+            obj: {},
             dom: [],
             pageIndex: 1,
             pageSize: 5,
         }
     },
     created() {
-        let strArr = this.$route.params.string.split('&&');
+
+        let obj = {}
+        try {
+            // console.log(JSON.parse(this.$route.params.string))
+            obj = JSON.parse(this.$route.params.string);
+            this.obj = obj;
+        } catch (e) {
+            this.nothing();
+            return;
+        }
+
         let data = {
-            inputValue: strArr[0],
-            mSortNo: strArr[1],
+            designFieldId: this.obj.designFieldId,
+            inputValue: this.obj.inputValue,
+            mSortNo: this.obj.mSortNo,
             pageIndex: this.pageIndex,
             pageSize: this.pageSize
         }
-        this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
+        this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
+            Indicator.close();
+            // console.log(" iiiiiiiiiiiiii ")
+            console.log(res)
             try {
                 if (res.DataList.length > 0) {
                     this.dom = res.DataList;
@@ -104,25 +128,46 @@ export default {
             return getCookie("logoUrl");
         },
         loadMore() {
-            if (!this.loading) { return; }
+            // console.log(" ddd ")
+            this.loading = true;
             this.pageIndex++;
-            let strArr = this.$route.params.string.split('&&');
+
             let data = {
-                inputValue: strArr[0],
-                mSortNo: strArr[1],
+                designFieldId: this.obj.designFieldId,
+                inputValue: this.obj.inputValue,
+                mSortNo: this.obj.mSortNo,
                 pageIndex: this.pageIndex,
                 pageSize: this.pageSize
             }
-            this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
-                let data = res.DataList;
-                if (data.length === 0) {
-                    this.loading = false;
-                    return;
-                }
-                this.dom = this.dom.concat(data);
+            this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
+                // console.log(JSON.parse(res.data).DataList)
+                // let DataList = JSON.parse(res.data).DataList;
+                this.dom = this.dom.concat(res.DataList);
+                this.loading = false;
+                this.noMore = res.DataList.length === 0 ? true : false;
             }, res => {
                 // error callback
             });
+
+            // let strArr = this.$route.params.string.split('&&');
+            // let data = {
+            //     weiXinCode: 'gh_6297f82da259',
+            //     inputValue: strArr[0],
+            //     mSortNo: strArr[1],
+            //     pageIndex: this.pageIndex,
+            //     pageSize: this.pageSize
+            // }
+            // this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
+            //     console.log(JSON.parse(res.data).DataList)
+            //     let DataList = JSON.parse(res.data).DataList;
+            //     this.dom = this.dom.concat(DataList);
+            //     this.loading = false;
+            //     this.noMore = DataList.length === 0 ? true : false;
+
+            // }, res => {
+            //     // error callback
+            // });
+
         },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
