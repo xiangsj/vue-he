@@ -73,7 +73,6 @@
 
 <script>
 import { getCookie } from "@/libs/utils.js";
-
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {

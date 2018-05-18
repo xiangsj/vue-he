@@ -50,7 +50,7 @@
                             <td>主机编号</td>
                             <td>
                                 <div class="maxWidth">{{item.ZhujiNo}}</div>
-                                </td>
+                            </td>
                         </tr>
                         <tr>
                             <td>适用车型</td>
