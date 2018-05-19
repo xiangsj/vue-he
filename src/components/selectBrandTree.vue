@@ -19,6 +19,8 @@
 
 <script>
 import { Indicator } from 'mint-ui';
+import { MessageBox } from 'mint-ui';
+
 export default {
   name: 'selectBrand',
   data() {
@@ -40,14 +42,20 @@ export default {
     open(item) {
       Indicator.open();
       this.isOpen = true;
-      this.getBrand(item);
+      this.getData(item);
       this.BrandName = item.BrandName;
     },
-    getBrand(item) {
+    getData(item) {
       if (!item.BrandID) { return; }
       this.$http.get('/api/Vehicle', { params: { brandID: item.BrandID } }).then(res => {
         // console.log(res)
         let dataList = res.DataList;
+        if (dataList.length === 0) {
+          MessageBox.alert('抱歉！没有查到数据').then(action => {
+            this.close();
+          });
+          return;
+        }
         let conArr = [];
         dataList.forEach(item => {
           if (conArr.indexOf(item.FirstChar) === -1) {

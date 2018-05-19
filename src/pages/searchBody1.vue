@@ -94,20 +94,27 @@ export default {
                 Toast('请先选择车系');
             }
         },
-
         updataBrandSN(item) {
             this.search.SN = item;
-            console.log("this.search.SN")
-            console.log(this.search.SN)
         },
         updataBrandTree(item) {
             this.search.tree = item;
+            this.search.SN = {
+                StyleID: '',
+                StyleName: ''
+            }
         },
         updataBrand(item) {
             this.search.brand = item;
-            // this.search.keywords = '';
+            this.search.tree = {
+                VehicleID: '',
+                VehicleName: '',
+            }
+            this.search.SN = {
+                StyleID: '',
+                StyleName: ''
+            }
         },
-
         submit() {
             // console.log(this.search)
             if (this.search.keywords === '' && this.search.brand.BrandID === '') {
@@ -126,7 +133,7 @@ export default {
                 StyleName: this.search.SN.StyleName,
             }
             let url = '/home/detail1/' + JSON.stringify(data);
-            this.$router.push(url)
+            this.$router.push(url);
         },
         clear() {
             this.search = {

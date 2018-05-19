@@ -60,10 +60,17 @@ body {
         }
     }
     .inputRight {
-        border-bottom: 1px solid #f3f3f3;
-        .mint-field-core {
-            text-align: right;
-            padding-right: 8px;
+        // border-bottom: 1px solid #d9d9d9;
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#d9d9d9), color-stop(50%, #d9d9d9), color-stop(50%, transparent));
+        background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        .mint-cell-value {
+            input.mint-field-core{
+                text-align: right;
+                padding-right: 10px;
+            }
         }
     }
 }
@@ -73,7 +80,7 @@ body {
     left: 0;
     top: 40px;
     right: 0;
-    bottom: 0; // border:1px solid red;
+    bottom: 0;
     overflow: auto;
     >li {
         // border: 1px solid blue;
@@ -106,6 +113,20 @@ img.logo {
         margin-top: 30px;
         min-height: 280px;
         position: relative;
+        >div.mint-cell {
+            // border-bottom: 1px solid red;
+            .mint-cell-value {
+                display: inline-block;
+                width: 70%;
+                text-align: right;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .overHidden {
+            border: 1px solid red; // max-width: 50%;
+        }
         .text-center {
             position: absolute;
             left: 0;
@@ -114,20 +135,22 @@ img.logo {
             .mint-button {
                 width: 100px;
                 margin: 0 10px;
+                height: 36px; // padding-top: 8px;
+                // padding-bottom: 8px;
             }
         }
     }
 }
 
 .selectBrand {
-  // border: 1px solid red;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  background-color: #fff;
+    // border: 1px solid red;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #fff;
 }
 
 .tableWrap {
@@ -137,8 +160,8 @@ img.logo {
         width: 100%;
         border-spacing: 0;
         border-collapse: collapse;
-        td{
-            word-break:break-all;
+        td {
+            word-break: break-all;
         }
     }
     table.hasBorder {
@@ -194,7 +217,7 @@ img.logo {
                     border-radius: 4px;
                 }
             }
-            .noPic{
+            .noPic {
                 // border: 1px solid red;
                 float: left;
                 width: 50%;

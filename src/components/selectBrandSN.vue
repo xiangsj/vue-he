@@ -19,6 +19,8 @@
 
 <script>
 import { Indicator } from 'mint-ui';
+import { MessageBox } from 'mint-ui';
+
 export default {
   name: 'selectBrand',
   data() {
@@ -32,21 +34,22 @@ export default {
 
   },
   methods: {
-    sendBrand(item) {
+    close() {
       this.isOpen = false;
+      this.navs = [];
+    },
+    sendBrand(item) {
+      this.close();
       this.$emit("updata", item)
-      console.log(item)
-      console.log(item)
-      console.log(item)
     },
     open(item, brand) {
       Indicator.open();
       this.isOpen = true;
       // console.log(item)
-      this.getBrand(item);
+      this.getData(item);
       this.name = brand.BrandName + ' - ' + item.VehicleName;
     },
-    getBrand(item) {
+    getData(item) {
       if (!item.BrandID) { return; }
       this.$http.get('/api/Style', {
         params: {
@@ -54,8 +57,15 @@ export default {
           vehicleID: item.VehicleID
         }
       }).then(res => {
-        console.log(res)
+        Indicator.close();
+        // console.log(res)
         let dataList = res.DataList;
+        if (dataList.length === 0) {
+          MessageBox.alert('抱歉！没有查到数据').then(action => {
+            this.close();
+          });
+          return;
+        }
         let conArr = [];
         dataList.forEach(item => {
           if (conArr.indexOf(item.FirstChar) === -1) {
@@ -79,8 +89,6 @@ export default {
         })
         // console.log(newData)
         this.navs = newData;
-
-        Indicator.close();
       }, res => {
         // error callback
       });
