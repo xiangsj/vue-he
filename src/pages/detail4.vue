@@ -49,7 +49,7 @@
                             <td>{{item.ZhujiNo}} </td>
                         </tr>
                         <tr>
-                            <td>适用车型</td>
+                            <td valign="top">适用车型</td>
                             <td>{{item.CanUseStyle}} </td>
                         </tr>
                     </tbody>
@@ -96,7 +96,8 @@ export default {
             inputValue: this.obj.inputValue,
             mSortNo: this.obj.mSortNo,
             pageIndex: this.pageIndex,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            registerCode: getCookie("username")
         }
         this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
             try {

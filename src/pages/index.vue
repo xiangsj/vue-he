@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getCookie, setCookie, clearCookie, setTitle } from "@/libs/utils.js";
+import { setCookie, clearCookie, setTitle } from "@/libs/utils.js";
 
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';

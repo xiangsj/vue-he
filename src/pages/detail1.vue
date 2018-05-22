@@ -4,9 +4,9 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <table class="hasBorder" style="margin-top:5px;">
+            <table class="hasBorder">
                 <tr>
-                    <td width=100>品牌</td>
+                    <td width=77>品牌</td>
                     <td>{{obj.BrandName}}</td>
                 </tr>
                 <tr>
@@ -19,120 +19,112 @@
                 </tr>
             </table>
 
-            <table class="noBorder" style="margin-top:10px;" v-infinite-scroll="loadMore" infinite-scroll-distance="10">
-                <tr v-for="(item,index) in dom" :key="index" @click="openDetail(item)">
-                    <td width=100>
-                        <img class="listPic" v-if="item.MainPath && item.MainPath !== ''" :src="item.MainPath">
-                        <div v-else class="text-center noPic">暂无图片</div>
-                    </td>
-                    <td>
-                        <div>{{item.Brand}}</div>
-                        <div>{{item.Item_C_Name}}</div>
-                        <div>{{item.Item_C_Spec}}</div>
-                    </td>
-                </tr>
-            </table>
+            <table class="detailOnly" style="margin-top:10px;" v-for="(item,index) in dom" :key="index">
+                <caption>
+                    <span v-if="item.MainPath">
+                        <img :src="item.MainPath">
+                    </span>
+                    <span v-else class="noPic">暂无主图</span>
 
-            <div class="getMore text-center">
-                <span v-if="loading">努力加载中...</span>
-                <span v-else>没有更多了</span>
-            </div>
+                    <span v-if="item.SubPath">
+                        <img :src="item.SubPath">
+                    </span>
+                    <span v-else class="noPic">暂无辅图</span>
+                </caption>
+
+                <tbody>
+                    <tr>
+                        <td style="width:88px;">产品名称</td>
+                        <td>{{item.Item_C_Name}}</td>
+                    </tr>
+                    <tr>
+                        <td>厂家编号</td>
+                        <td>{{item.ProvItemNo}}</td>
+                    </tr>
+                    <tr>
+                        <td>规格型号</td>
+                        <td>{{item.Item_C_Spec}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>每箱数量</td>
+                        <td>{{item.BoxQty}}</td>
+                    </tr>
+                    <tr>
+                        <td>单车用量</td>
+                        <td>{{item.CarQty}}</td>
+                    </tr>
+                    <tr>
+                        <td>替代品牌</td>
+                        <td>{{item.ProdItemReplace}} </td>
+                    </tr>
+                    <tr>
+                        <td>主机编号</td>
+                        <td>{{item.ZhujiNo}} </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">适用车型</td>
+                        <td>{{item.CanUseStyle}} </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </template>
 
 <script>
 import { getCookie } from "@/libs/utils.js";
+import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 export default {
     name: 'detail',
     data() {
         return {
-            loading: true,
             obj: {},
-            dom: [],
-            pageIndex: 1,
-            pageSize: 8,
+            dom: ''
         }
     },
     created() {
-        // console.log(' jjjjjjj ')
-        let obj = {}
-        try {
-            // console.log(JSON.parse(this.$route.params.string))
-            obj = JSON.parse(this.$route.params.string);
-            this.obj = obj;
-        } catch (e) {
-            this.nothing();
-            return;
-        }
-
-        let data = {
-            searchWords: this.obj.keywords,
-            brandID: this.obj.BrandID,
-            vehicleID: this.obj.VehicleID,
-            styleID: this.obj.StyleID,
-            mSortNo: this.obj.mSortNo,
-            pageIndex: this.pageIndex,
-            pageSize: this.pageSize
-        }
-        this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
-            // console.log(" iiiiiiiiiiiiii ")
-            try {
-                if (res.DataList.length > 0) {
-                    this.dom = res.DataList;
-                } else {
-                    this.nothing();
-                }
-            } catch (e) {
-                this.nothing();
-            }
-        }, res => {
-            // error callback
-        });
+        this.getData();
     },
     methods: {
-        getLogoUrl() {
-            return getCookie("logoUrl");
-        },
-        loadMore() {
-            if(!this.loading){return;}
-            this.pageIndex++;
-            let data = {
-                searchWords: this.obj.keywords,
-                brandID: this.obj.BrandID,
-                vehicleID: this.obj.VehicleID,
-                styleID: this.obj.StyleID,
-                mSortNo: this.obj.mSortNo,
-                pageIndex: this.pageIndex,
-                pageSize: this.pageSize
+        getData() {
+            Indicator.open();
+            // console.log(' jjjjjjj ')
+            let obj = {}
+            try {
+                obj = JSON.parse(this.$route.params.string);
+                this.obj = obj;
+            } catch (e) {
+                this.nothing();
+                return;
             }
-            this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
-                let data = res.DataList;
-                if(data.length === 0){
-                    this.loading = false;
-                    return;
+            // console.log(this.obj)
+            this.$http.get('/api/ProductDetail', { params: { fid: obj.FID } }).then(res => {
+                Indicator.close();
+                // console.log(" iiiiiiiiiiiiii ")
+                // console.log(res.DataList[0])
+                try {
+                    if (res.DataList.length > 0) {
+                        this.dom = res.DataList;
+                    } else {
+                        this.nothing();
+                    }
+                } catch (e) {
+                    this.nothing();
                 }
-                this.dom = this.dom.concat(data);
             }, res => {
                 // error callback
             });
+        },
+        getLogoUrl() {
+            return getCookie("logoUrl");
         },
         nothing() {
             MessageBox.alert('没有查到数据，返回重新查询').then(action => {
                 this.$router.go(-1);
             });
-        },
-        openDetail(item) {
-            // console.log(item)
-            let data = {
-                FID: item.FID,
-                BrandName: this.obj.BrandName,
-                VehicleName: this.obj.VehicleName,
-                StyleName: this.obj.StyleName,
-            }
-            let url = '/home/detail1_1/' + JSON.stringify(data);
-            this.$router.push(url)
         }
     }
 }

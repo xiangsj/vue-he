@@ -2,8 +2,8 @@
     <div class="login">
         <mt-header title="用户登录">
             <!-- <router-link to="" slot="left">
-                            <mt-button icon="back">返回</mt-button>
-                        </router-link> -->
+                                <mt-button icon="back">返回</mt-button>
+                            </router-link> -->
         </mt-header>
 
         <div style="margin:12px 0 20px;">
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { setTitle } from "@/libs/utils.js";
+import { setTitle, setCookie } from "@/libs/utils.js";
 
 import { Indicator } from 'mint-ui';
 import { Toast } from 'mint-ui';
@@ -54,6 +54,8 @@ export default {
             this.$http.get('/api/User', { params: data }).then(res => {
                 // console.log(res)
                 Indicator.close();
+                setCookie("username", this.username);
+
                 if (res.status == 'E') {
                     Toast(res.message);
                 } else {

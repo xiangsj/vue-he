@@ -132,7 +132,7 @@ export default {
                 VehicleName: this.search.tree.VehicleName,
                 StyleName: this.search.SN.StyleName,
             }
-            let url = '/home/detail1/' + JSON.stringify(data);
+            let url = '/home/list/' + JSON.stringify(data);
             this.$router.push(url);
         },
         clear() {

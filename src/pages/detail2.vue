@@ -49,7 +49,7 @@
                             <td>{{item.ZhujiNo}} </td>
                         </tr>
                         <tr>
-                            <td>适用车型</td>
+                            <td valign="top">适用车型</td>
                             <td>{{item.CanUseStyle}} </td>
                         </tr>
                     </tbody>
@@ -111,8 +111,10 @@ export default {
                 inputValue: strArr[0],
                 mSortNo: strArr[1],
                 pageIndex: this.pageIndex,
-                pageSize: this.pageSize
+                pageSize: this.pageSize,
+                registerCode: getCookie("username")
             }
+            // console.log(data)
             this.$http.get('/api/ProductSearchByNo', { params: data }).then(res => {
                 let data = res.DataList;
                 if (data.length === 0) {

@@ -4,11 +4,13 @@ import HelloWorld from '@/components/HelloWorld'
 import index from '@/pages/index'
 import home from '@/pages/home'
 import search from '@/pages/search'
-// import detail from '@/pages/detail'
+
+import list from '@/pages/list'
+
 import detail1 from '@/pages/detail1'
-import detail1_1 from '@/pages/detail1_1'
 import detail2 from '@/pages/detail2'
 import detail4 from '@/pages/detail4'
+
 import login from '@/pages/login'
 
 Vue.use(Router)
@@ -40,20 +42,15 @@ export default new Router({
           name: 'search',
           component: search,
         },
-        // {
-        //   path: 'detail/:string',
-        //   name: 'detail',
-        //   component: detail,
-        // },
+        {
+          path: 'list/:string',
+          name: 'list',
+          component: list,
+        },
         {
           path: 'detail1/:string',
           name: 'detail1',
           component: detail1,
-        },
-        {
-          path: 'detail1_1/:string',
-          name: 'detail1_1',
-          component: detail1_1,
         },
         
 
