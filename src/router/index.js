@@ -36,21 +36,25 @@ export default new Router({
           path: 'index',
           name: 'index',
           component: index,
+          meta: {keepAlive: true}
         },
         {
           path: 'search/:id',
           name: 'search',
           component: search,
+          meta: {keepAlive: true}
         },
         {
           path: 'list/:string',
           name: 'list',
           component: list,
+          meta: {keepAlive: false}
         },
         {
           path: 'detail1/:string',
           name: 'detail1',
           component: detail1,
+          meta: {keepAlive: false}
         },
         
 
@@ -58,11 +62,13 @@ export default new Router({
           path: 'detail2/:string',
           name: 'detail2',
           component: detail2,
+          meta: {keepAlive: false}          
         },
         {
           path: 'detail4/:string',
           name: 'detail4',
           component: detail4,
+          meta: {keepAlive: false}          
         }
     ]
     }

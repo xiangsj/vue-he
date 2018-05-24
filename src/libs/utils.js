@@ -1,4 +1,6 @@
 import Cookies from 'js-cookie'
+window.log = console.log.bind(console)
+
 /**
  * 设置cookie
  * 默认0.5天过期

@@ -4,7 +4,7 @@
             <img class="logo" :src="getLogoUrl()">
         </div>
         <div class="tableWrap">
-            <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="isMore" infinite-scroll-distance="10">
                 <table class="detailOnly" style="margin:15px 0 30px;" v-for="(item,index) in dom" :key="index">
                     <caption>
                         <span v-if="item.MainPath">
@@ -73,11 +73,12 @@ export default {
     name: 'detail',
     data() {
         return {
+            isMore: true,//false 为加载更多
             loading: true,
             obj: {},
             dom: [],
             pageIndex: 1,
-            pageSize: 5,
+            pageSize: 3,
         }
     },
     created() {
@@ -103,6 +104,7 @@ export default {
             try {
                 if (res.DataList.length > 0) {
                     this.dom = res.DataList;
+                    this.isMore = false;//开启加载更多
                 } else {
                     this.nothing();
                 }

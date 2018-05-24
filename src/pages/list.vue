@@ -19,7 +19,8 @@
                 </tr>
             </table>
 
-            <table class="noBorder" style="margin-top:10px;" v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+            <table class="noBorder" style="margin-top:10px;" v-infinite-scroll="loadMore"  infinite-scroll-disabled="isMore"
+ infinite-scroll-distance="10">
                 <tr v-for="(item,index) in dom" :key="index" @click="openDetail(item)">
                     <td width=100>
                         <img class="listPic" v-if="item.MainPath && item.MainPath !== ''" :src="item.MainPath">
@@ -48,6 +49,7 @@ export default {
     name: 'detail',
     data() {
         return {
+            isMore: true,//false 为加载更多
             loading: true,
             obj: {},
             dom: [],
@@ -56,47 +58,53 @@ export default {
         }
     },
     created() {
-        // console.log(' jjjjjjj ')
-        let obj = {}
-        try {
-            // console.log(JSON.parse(this.$route.params.string))
-            obj = JSON.parse(this.$route.params.string);
-            this.obj = obj;
-        } catch (e) {
-            this.nothing();
-            return;
-        }
-
-        let data = {
-            searchWords: this.obj.keywords,
-            brandID: this.obj.BrandID,
-            vehicleID: this.obj.VehicleID,
-            styleID: this.obj.StyleID,
-            mSortNo: this.obj.mSortNo,
-            pageIndex: this.pageIndex,
-            pageSize: this.pageSize
-        }
-        this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
-            // console.log(" iiiiiiiiiiiiii ")
-            try {
-                if (res.DataList.length > 0) {
-                    this.dom = res.DataList;
-                } else {
-                    this.nothing();
-                }
-            } catch (e) {
-                this.nothing();
-            }
-        }, res => {
-            // error callback
-        });
+        this.getData();
     },
     methods: {
+        getData() {
+            // console.log(' jjjjjjj ')
+            
+            let obj = {}
+            try {
+                // console.log(JSON.parse(this.$route.params.string))
+                obj = JSON.parse(this.$route.params.string);
+                this.obj = obj;
+            } catch (e) {
+                this.nothing();
+                return;
+            }
+
+            let data = {
+                searchWords: this.obj.keywords,
+                brandID: this.obj.BrandID,
+                vehicleID: this.obj.VehicleID,
+                styleID: this.obj.StyleID,
+                mSortNo: this.obj.mSortNo,
+                pageIndex: this.pageIndex,
+                pageSize: this.pageSize
+            }
+            this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
+                // console.log(" iiiiiiiiiiiiii ")
+                try {
+                    if (res.DataList.length > 0) {
+                        this.dom = res.DataList;
+                        this.isMore = false;//开启加载更多
+                    } else {
+                        this.nothing();
+                    }
+                } catch (e) {
+                    this.nothing();
+                }
+            }, res => {
+                // error callback
+            });
+        },
         getLogoUrl() {
             return getCookie("logoUrl");
         },
         loadMore() {
-            if(!this.loading){return;}
+            // log("uuu");
+            if (!this.loading) { return; }
             this.pageIndex++;
             let data = {
                 searchWords: this.obj.keywords,
@@ -110,7 +118,7 @@ export default {
             }
             this.$http.get('/api/ProductSearchByCarStyle', { params: data }).then(res => {
                 let data = res.DataList;
-                if(data.length === 0){
+                if (data.length === 0) {
                     this.loading = false;
                     return;
                 }
