@@ -34,7 +34,7 @@
 
                         <tr v-for="(item2,index2) in domAdd" :key="index2">
                             <td>{{item2.Name}}</td>
-                            <td align="right">{{item2.Value}}</td>
+                            <td>{{item2.Value}}</td>
                         </tr>
 
                         <tr v-for="(item3,index3) in item.ProdItemReplace.split(',')">
