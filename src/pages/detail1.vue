@@ -46,26 +46,32 @@
                         <td>{{item.Item_C_Spec}}</td>
                     </tr>
 
-                    <tr>
-                        <td>每箱数量</td>
-                        <td>{{item.BoxQty}}</td>
+                    <tr v-for="(item2,index2) in domAdd" :key="index2">
+                        <td>{{item2.Name}}</td>
+                        <td align="right">{{item2.Value}}</td>
                     </tr>
-                    <tr>
-                        <td>单车用量</td>
-                        <td>{{item.CarQty}}</td>
+
+                    <tr v-for="(item3,index3) in item.ProdItemReplace.split(',')">
+                        <td>
+                            <span v-if="index3==0">替代品牌</span>
+                        </td>
+                        <td>{{item3}} </td>
                     </tr>
-                    <tr>
-                        <td>替代品牌</td>
-                        <td>{{item.ProdItemReplace}} </td>
+
+                    <tr v-for="(item3,index3) in item.ZhujiNo.split(',')">
+                        <td>
+                            <span v-if="index3==0">主机编号</span>
+                        </td>
+                        <td>{{item3}} </td>
                     </tr>
-                    <tr>
-                        <td>主机编号</td>
-                        <td>{{item.ZhujiNo}} </td>
+
+                    <tr v-for="(item3,index3) in item.CanUseStyle.split(',')">
+                        <td>
+                            <span v-if="index3==0">适用车型</span>
+                        </td>
+                        <td>{{item3}} </td>
                     </tr>
-                    <tr>
-                        <td valign="top">适用车型</td>
-                        <td>{{item.CanUseStyle}} </td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -82,7 +88,8 @@ export default {
     data() {
         return {
             obj: {},
-            dom: ''
+            dom: '',
+            domAdd: []
         }
     },
     created() {
@@ -104,10 +111,14 @@ export default {
             this.$http.get('/api/ProductDetail', { params: { fid: obj.FID } }).then(res => {
                 Indicator.close();
                 // console.log(" iiiiiiiiiiiiii ")
-                // console.log(res.DataList[0])
+                // console.log(res)
                 try {
                     if (res.DataList.length > 0) {
                         this.dom = res.DataList;
+                        if (!res.resultString) {
+                            return;
+                        }
+                        this.domAdd = JSON.parse(res.resultString);
                     } else {
                         this.nothing();
                     }

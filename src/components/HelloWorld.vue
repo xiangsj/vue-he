@@ -2,13 +2,13 @@
   <div class="hello text-center">
     <h1>{{ msg }}</h1>
     <router-link to="/home/index/?weiXinCode=gh_6297f82da266">Go to index</router-link>
-
+<!-- 
     <h2>Essential Links</h2>
     <mt-button @click.native="handleClick">toast</mt-button>
     <ul>
       <li>list</li>
     </ul>
-    <mt-button @click.native="apiGet">apiGet</mt-button>
+    <mt-button @click.native="apiGet">apiGet</mt-button> -->
   </div>
 </template>
 
