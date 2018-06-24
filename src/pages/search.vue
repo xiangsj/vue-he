@@ -14,7 +14,7 @@
         <mt-tab-container v-model="selected">
             <mt-tab-container-item :id="item.Name" v-for="(item,index) in tabsFixed" :key="'a'+index" v-if="item.IsShow">
                 <!-- <search-body-1 :mSortNo="mSortNo"></search-body-1> -->
-                <component v-bind:is="'search-body-' + parseInt(index+1)"></component>  
+                <component :mSortNo="mSortNo" v-bind:is="'search-body-' + parseInt(index+1)"></component>  
             </mt-tab-container-item>
 
             <!-- <mt-tab-container-item id="2">
@@ -63,7 +63,7 @@ export default {
         this.mSortNo = this.$route.params.id;
         this.getTabs();
         this.getTabsFixed();
-        // console.log(this.mSortNo)
+        console.log(this.mSortNo)
     },
     methods: {
         getLogoUrl(){
