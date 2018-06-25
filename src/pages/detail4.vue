@@ -32,7 +32,7 @@
                             <td>{{item.Item_C_Spec}}</td>
                         </tr>
 
-                        <tr v-for="(item2,index2) in domAdd" :key="index2">
+                        <tr v-for="(item2,index2) in JSON.parse(item.resultString)" :key="index2">
                             <td>{{item2.Name}}</td>
                             <td>{{item2.Value}}</td>
                         </tr>
@@ -85,7 +85,6 @@ export default {
             dom: [],
             pageIndex: 1,
             pageSize: 3,
-            domAdd: []
         }
     },
     created() {
@@ -110,13 +109,9 @@ export default {
         this.$http.get('/api/ProductSeachByDesignField', { params: data }).then(res => {
             try {
                 if (res.DataList.length > 0) {
-                    // console.log(res)
+                    // console.log(res.DataList)
                     this.dom = res.DataList;
                     this.isMore = false;//开启加载更多
-                    if (!res.resultString) {
-                        return;
-                    }
-                    this.domAdd = res.resultString;
                 } else {
                     this.nothing();
                 }
