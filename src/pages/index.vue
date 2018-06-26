@@ -79,7 +79,10 @@ export default {
         },
         // console.log(" 首页产品按钮 ")
         getMenu() {
-            this.$http.get('/api/ProdSort/gh_6297f82da259', { params: { registerCode: getCookie("username") } }).then(res => {
+            let data = {
+                registerCode: getCookie("username") || ''
+            }
+            this.$http.get('/api/ProdSort', { params: data }).then(res => {
                 this.homeList = res.DataList;
                 Indicator.close();
             }, res => {
