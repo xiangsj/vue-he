@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { setCookie, clearCookie, setTitle } from "@/libs/utils.js";
-
+import { setCookie, getCookie clearCookie, setTitle } from "@/libs/utils.js";
 import { Indicator } from 'mint-ui';
 import { MessageBox } from 'mint-ui';
 
@@ -80,7 +79,7 @@ export default {
         },
         // console.log(" 首页产品按钮 ")
         getMenu() {
-            this.$http.get('/api/ProdSort/gh_6297f82da259', { params: {} }).then(res => {
+            this.$http.get('/api/ProdSort/gh_6297f82da259', { params: { registerCode: getCookie("username") } }).then(res => {
                 this.homeList = res.DataList;
                 Indicator.close();
             }, res => {
