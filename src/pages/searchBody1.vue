@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="tabContent searchBody1">
-            <mt-field class="inputRight" label="关键字" placeholder="请输入车型关键字直接检索" v-model="search.keywords"></mt-field>
+
+            <mt-field class="inputRight" label="关键字" placeholder="请输入车型或车系代码关键字" v-model="search.keywords"></mt-field>
 
             <div @click="$refs.selectBrand.open()">
                 <mt-cell title="汽车品牌" is-link value="请选择汽车品牌">

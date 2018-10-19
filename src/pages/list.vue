@@ -27,9 +27,10 @@
                         <div v-else class="text-center noPic">暂无图片</div>
                     </td>
                     <td>
-                        <div>{{item.Brand}}</div>
+                        <div>{{item.ProvItemNo}}</div>
                         <div>{{item.Item_C_Name}}</div>
                         <div>{{item.Item_C_Spec}}</div>
+                        <div style="color:#666">{{item.ArtDis}}</div>
                     </td>
                 </tr>
             </table>

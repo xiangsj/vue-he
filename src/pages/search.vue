@@ -13,17 +13,8 @@
         <!-- tab-container -->
         <mt-tab-container v-model="selected">
             <mt-tab-container-item :id="item.Name" v-for="(item,index) in tabsFixed" :key="'a'+index" v-if="item.IsShow">
-                <!-- <search-body-1 :mSortNo="mSortNo"></search-body-1> -->
                 <component :mSortNo="mSortNo" v-bind:is="'search-body-' + parseInt(index+1)"></component>  
             </mt-tab-container-item>
-
-            <!-- <mt-tab-container-item id="2">
-                <search-body-2 :mSortNo="mSortNo"></search-body-2>
-            </mt-tab-container-item>
-
-            <mt-tab-container-item id="3">
-                <search-body-3 :mSortNo="mSortNo"></search-body-3>
-            </mt-tab-container-item> -->
 
             <mt-tab-container-item :id="'tab'+item.FID" v-for="(item,index) in tabsMore" :key="'b'+index">
                 <search-body-4 :mSortNo="mSortNo" :itemData="item"></search-body-4>
