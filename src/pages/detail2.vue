@@ -37,25 +37,45 @@
                             <td>{{item2.Value}}</td>
                         </tr>
 
-                        <tr v-for="(item3,index3) in item.ProdItemReplace.split(',')">
+                        <tr v-for="(item3,index3) in item.ProdItemReplace.split(',')" :key="'a'+index3">
                             <td>
                                 <span v-if="index3==0">替代品牌</span>
                             </td>
                             <td>{{item3}} </td>
                         </tr>
 
-                        <tr v-for="(item3,index3) in item.ZhujiNo.split(',')">
+                        <tr v-for="(item3,index3) in item.EngineNo.split(',')" :key="'b'+index3">
                             <td>
                                 <span v-if="index3==0">主机编号</span>
                             </td>
                             <td>{{item3}} </td>
                         </tr>
+                        <!-- <tr>
+                            <td valign="top">适用车系代码</td>
+                            <td>{{item.UseInCarDesc}}</td>
+                        </tr>
 
-                        <tr v-for="(item3,index3) in item.CanUseStyle.split(',')">
+                        <tr v-for="(item3,index3) in item.CanUseStyle.split(',')" :key="'c'+index3">
                             <td>
                                 <span v-if="index3==0">适用车型</span>
                             </td>
                             <td>{{item3}} </td>
+                        </tr> -->
+                        <tr>
+                            <td colspan="2">适用车型</td>
+                        </tr>
+                        <tr v-for="(item3,index3) in item.CanUseStyle.split(',')" :key="'c'+index3">
+                            <td colspan="2" style="color:#2c3e50">
+                                {{item.UseInCarDesc}}
+                                {{item3}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">备注</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="color:#2c3e50">{{item.Memo}}</td>
                         </tr>
 
                     </tbody>

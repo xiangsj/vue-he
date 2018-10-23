@@ -26,16 +26,16 @@
                         <img class="listPic" v-if="item.MainPath && item.MainPath !== ''" :src="item.MainPath">
                         <div v-else class="text-center noPic">暂无图片</div>
                     </td>
-                    <td>
+                    <td style="line-height:25px;">
                         <div>{{item.ProvItemNo}}</div>
                         <div>{{item.Item_C_Name}}</div>
                         <div>{{item.Item_C_Spec}}</div>
-                        <div style="color:#666">{{item.ArtDis}}</div>
+                        <div style="line-height:18px;">{{item.ArtDis}}</div>
                     </td>
                 </tr>
             </table>
 
-            <div class="getMore text-center">
+            <div class="getMore text-center" style="margin-top:15px; color:#999;">
                 <span v-if="loading">努力加载中...</span>
                 <span v-else>没有更多了</span>
             </div>

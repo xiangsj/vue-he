@@ -84,6 +84,11 @@ export default {
             }
             this.$http.get('/api/ProdSort', { params: data }).then(res => {
                 this.homeList = res.DataList;
+                // console.log(this.homeList)
+                if (this.homeList.length === 1) {
+                    // 仅有一项菜单时，直接跳转
+                    this.$router.push('/home/search/' + this.homeList[0].FID)
+                }
                 Indicator.close();
             }, res => {
                 // error callback
