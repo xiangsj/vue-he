@@ -75,7 +75,7 @@
                     </tr>
                     <tr v-for="(item3,index3) in item.CanUseStyle.split(',')" :key="'c'+index3">
                         <td colspan="2" style="color:#2c3e50">
-                            {{item.UseInCarDesc}}
+                            <!-- {{item.UseInCarDesc}} -->
                             {{item3}}
                         </td>
                     </tr>
